@@ -376,3 +376,15 @@ INSERT INTO Friendships VALUES('Kalyn Sigg','Eric Egler',0, 'Friends', DATE '200
 INSERT INTO Friendships VALUES('Harry Styles','Erin Higgins',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Gabby Means','Laura Barton',0, 'Friends', DATE '2000-01-01');
 INSERT INTO Friendships VALUES('Gabby Means','Lena Ortmann',1, 'Pending', NULL);
+
+---Inserting into Groups
+INSERT INTO Groups VALUES('SNL Alums', 'Ex-Members of SNL', 0);
+INSERT INTO Groups VALUES('SNL Futures', 'People who will be on SNL', 0);
+INSERT INTO Groups VALUES('Pitt Students', 'People who go to Pitt', 0);
+INSERT INTO Groups VALUES('High School Pals', 'People from high school', 0);
+INSERT INTO Groups VALUES('One Direction Fan Club', 'Those who love One Direction', 0);
+INSERT INTO Groups VALUES('Film Lovers', 'People who love movies!', 0);
+INSERT INTO Groups VALUES('Harry Potter Fan Club', 'People who love specifically HP', 0);
+INSERT INTO Groups VALUES('Twin Peaks Fan Club', 'For lovers of David Lynch!', 0);
+INSERT INTO Groups VALUES('Silicon Valley Fan Club', 'Thomas forever', 0);
+INSERT INTO Groups VALUES('Hot Rod Fan Club', 'Stunts forever', 0);
