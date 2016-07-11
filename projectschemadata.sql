@@ -9,10 +9,10 @@ DROP TABLE Messages CASCADE CONSTRAINTS;
 
 ---Making the Profile table
 CREATE TABLE Profiles
-(	username 			varchar2(80),
-    email   		varchar2(30),
+(	username 		varchar2(80),
+        email   		varchar2(30),
 	dob 			DATE,
-	timeoflastlogin TIMESTAMP
+	timeoflastlogin         TIMESTAMP
 );
 
 
@@ -30,6 +30,7 @@ CREATE TABLE Groups
 (	groupname 	 varchar2(32),
 	description  varchar2(32),
 	numofmembers INTEGER,
+	memberlist   varchar2(500),
 	CONSTRAINT memberlimit CHECK (numofmembers <= 100)
 );
 
@@ -37,7 +38,7 @@ CREATE TABLE Groups
 ---Making the Messages table
 CREATE TABLE Messages
 (	subject 	varchar2(40),
-	textmsg     varchar2(100),
+	textmsg         varchar2(100),
 	sender  	varchar2(32),
 	dateofmsg 	DATE,
 	groupmsg	number(1)
@@ -378,16 +379,16 @@ INSERT INTO Friendships VALUES('Gabby Means','Laura Barton',0, 'Friends', DATE '
 INSERT INTO Friendships VALUES('Gabby Means','Lena Ortmann',1, 'Pending', NULL);
 
 ---Inserting into Groups
-INSERT INTO Groups VALUES('SNL Alums', 'Ex-Members of SNL', 0);
-INSERT INTO Groups VALUES('SNL Futures', 'People who will be on SNL', 0);
-INSERT INTO Groups VALUES('Pitt Students', 'People who go to Pitt', 0);
-INSERT INTO Groups VALUES('High School Pals', 'People from high school', 0);
-INSERT INTO Groups VALUES('One Direction Fan Club', 'Those who love One Direction', 0);
-INSERT INTO Groups VALUES('Film Lovers', 'People who love movies!', 0);
-INSERT INTO Groups VALUES('Harry Potter Fan Club', 'People who love specifically HP', 0);
-INSERT INTO Groups VALUES('Twin Peaks Fan Club', 'For lovers of David Lynch!', 0);
-INSERT INTO Groups VALUES('Silicon Valley Fan Club', 'Thomas forever', 0);
-INSERT INTO Groups VALUES('Hot Rod Fan Club', 'Stunts forever', 0);
+INSERT INTO Groups VALUES('SNL Alums', 'Ex-Members of SNL', 0, NULL);
+INSERT INTO Groups VALUES('SNL Futures', 'People who will be on SNL', 0, NULL);
+INSERT INTO Groups VALUES('Pitt Students', 'People who go to Pitt', 0, NULL);
+INSERT INTO Groups VALUES('High School Pals', 'People from high school', 0, NULL);
+INSERT INTO Groups VALUES('One Direction Fan Club', 'Those who love One Direction', 0, NULL);
+INSERT INTO Groups VALUES('Film Lovers', 'People who love movies!', 0, NULL);
+INSERT INTO Groups VALUES('Harry Potter Fan Club', 'People who love specifically HP', 0, NULL);
+INSERT INTO Groups VALUES('Twin Peaks Fan Club', 'For lovers of David Lynch!', 0, NULL);
+INSERT INTO Groups VALUES('Silicon Valley Fan Club', 'Thomas forever', 0, NULL);
+INSERT INTO Groups VALUES('Hot Rod Fan Club', 'Stunts forever', 0, NULL);
 
 ---Inserting into Messages
 INSERT INTO Messages VALUES ('Movie Idea', 'Hey I have a great idea for a film. Messages me back!', 'Andy Samberg', DATE '2006-02-01', 0);
