@@ -8,6 +8,7 @@ DROP TABLE Groups CASCADE CONSTRAINTS;
 DROP TABLE Messages CASCADE CONSTRAINTS;
 
 ---Making the Profile table
+-- Users must be unique 
 CREATE TABLE Profiles
 (	username 		varchar2(80) PRIMARY KEY,
         email   		varchar2(30),
@@ -17,6 +18,8 @@ CREATE TABLE Profiles
 
 
 ---Making the Friendship table
+-- Assumption: sender and recipient must be a user in the system - foreign key from nameofuser and requestto to Profile(username)
+-- Assumption: there cannot be more than one friendship for the same two people - Primary key is nameofuser, requestto
 CREATE TABLE Friendships
 (	nameofuser 	varchar2(80),
 	requestto varchar2(32),
@@ -29,6 +32,7 @@ CREATE TABLE Friendships
 );
 
 ---Making the Group table
+-- Assumption: only 100 users allowed in a group
 CREATE TABLE Groups
 (	groupname 	 varchar2(32),
 	description  varchar2(32),
@@ -39,6 +43,7 @@ CREATE TABLE Groups
 
 
 ---Making the Messages table
+-- Assumption: the sender must have a Profile - foreign key sender to Profiles(username)
 CREATE TABLE Messages
 (	subject 	varchar2(40),
 	textmsg         varchar2(100),
