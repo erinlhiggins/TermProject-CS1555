@@ -682,7 +682,7 @@ INSERT INTO Messages VALUES ('Computer desk', 'I need a new desk for my computer
 INSERT INTO Messages VALUES ('Desk', 'I found a new desk for my computer', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('I am good', 'Sorry I have not been keeping in touch', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Sad', 'Sorry to hear that, get better soon!', 'Erin Higgins', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Found that movie', 'Found that DVD you were looking for', 'Erin Higgins, DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Found that movie', 'Found that DVD you were looking for', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Fresh', 'We should go to the farmers market on Friday', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Workout plan', 'I have been following a plan and it is really tough', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Gloves', 'I love these new gloves, thanks', 'Bridget Devine', DATE '2006-02-01', 0);
