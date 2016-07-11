@@ -9,7 +9,7 @@ DROP TABLE Messages CASCADE CONSTRAINTS;
 
 ---Making the Profile table
 CREATE TABLE Profiles
-(	username 		varchar2(80),
+(	username 		varchar2(80) PRIMARY KEY,
         email   		varchar2(30),
 	dob 			DATE,
 	timeoflastlogin         TIMESTAMP
@@ -22,7 +22,10 @@ CREATE TABLE Friendships
 	requestto varchar2(32),
 	request number(1),
 	status  varchar2(32),
-	dateoffriendship    DATE
+	dateoffriendship    DATE,
+	FOREIGN KEY (nameofuser) REFERENCES Profiles(username),
+	FOREIGN KEY (requestto) REFERENCES Profiles(username), 
+	PRIMARY KEY (nameofuser, requestto)
 );
 
 ---Making the Group table
@@ -41,7 +44,8 @@ CREATE TABLE Messages
 	textmsg         varchar2(100),
 	sender  	varchar2(32),
 	dateofmsg 	DATE,
-	groupmsg	number(1)
+	groupmsg	number(1), 
+	FOREIGN KEY (sender) REFERENCES Profiles(username)
 );
 
 
@@ -155,24 +159,24 @@ INSERT INTO Profiles VALUES('Kevin Bacon', 'numbers@pitt.edu', DATE '1993-09-05'
 
 ---Inserting into Friendships
 INSERT INTO Friendships VALUES('Lena Ortmann','Bridget Egler',0, 'Friends', DATE '2012-08-04');
-INSERT INTO Friendships VALUES('Lena Ortmann','Dan Robertson',0, 'Friends', DATE '2013-09-01');
+INSERT INTO Friendships VALUES('Lena Ortmann','Daniel Robertson',0, 'Friends', DATE '2013-09-01');
 INSERT INTO Friendships VALUES('Lena Ortmann','Sara Mills',0, 'Friends', DATE '2012-09-11');
 INSERT INTO Friendships VALUES('Lena Ortmann','Hannah Barton',0, 'Friends', DATE '2012-08-05');
 INSERT INTO Friendships VALUES('Lena Ortmann','Janna Votodian',0, 'Friends', DATE '2012-08-14');
 INSERT INTO Friendships VALUES('Lena Ortmann','Tommy Becker',0, 'Friends', DATE '2012-11-11');
-INSERT INTO Friendships VALUES('Dan Robertson','Bridget Egler',0, 'Friends', DATE '2013-08-12');
+INSERT INTO Friendships VALUES('Daniel Robertson','Bridget Egler',0, 'Friends', DATE '2013-08-12');
 INSERT INTO Friendships VALUES('Sara Mills','Bridget Egler',0, 'Friends', DATE '2012-08-02');
 INSERT INTO Friendships VALUES('Jake Ballard','Bridget Egler',0, 'Friends', DATE '2015-02-23');
 INSERT INTO Friendships VALUES('Tom Smith','Sasha Becker',0, 'Friends', DATE '2013-02-13');
 INSERT INTO Friendships VALUES('Harry Styles','Bridget Egler',1, 'Pending', NULL);
-INSERT INTO Friendships VALUES('Lous stylinson','Lena Ortmann',1, 'Pending', NULL);
+INSERT INTO Friendships VALUES('Louis Stylinson','Lena Ortmann',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Sara Mills','Louis Stylinson',1, 'Pending', NULL);
-INSERT INTO Friendships VALUES('Eli Becker','Bridget Egler',0, 'Friends', DATE '2012-04-03');
-INSERT INTO Friendships VALUES('Zayn Malik','Eli Becker',1, 'pending', NULL);
-INSERT INTO Friendships VALUES('Jake Ballard','Dan Robertson',0, 'Friends', DATE '2008-01-23');
+INSERT INTO Friendships VALUES('Eric Egler','Bridget Egler',0, 'Friends', DATE '2012-04-03');
+INSERT INTO Friendships VALUES('Zayn Malik','Akiva Shaffer',1, 'pending', NULL);
+INSERT INTO Friendships VALUES('Jake Ballard','Daniel Robertson',0, 'Friends', DATE '2008-01-23');
 INSERT INTO Friendships VALUES('Jeffrey Smolen','Bridget Egler',0, 'Friends', DATE '2011-06-11');
 INSERT INTO Friendships VALUES('Carter Johnson','Jared Niall',0, 'Friends', DATE '2012-08-29');
-INSERT INTO Friendships VALUES('Mark Zsfranski','Tom Truchok',0, 'Friends', DATE '2007-04-02');
+INSERT INTO Friendships VALUES('Bill Murry','Tom Truchok',0, 'Friends', DATE '2007-04-02');
 INSERT INTO Friendships VALUES('Jeff Egler','Eric Egler',0, 'Friends', DATE '2002-01-25');
 INSERT INTO Friendships VALUES('Kristin Baker','Bridget Egler',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Roger Barton','Laura Barton',0, 'Friends', DATE '2000-01-01');
@@ -182,12 +186,12 @@ INSERT INTO Friendships VALUES('Erin Higgins','Bill Hader',0, 'Friends', DATE '2
 INSERT INTO Friendships VALUES('Erin Higgins','Will Forte',0, 'Friends', DATE '2012-09-11');
 INSERT INTO Friendships VALUES('Erin Higgins','Andy Samberg',0, 'Friends', DATE '2012-08-05');
 INSERT INTO Friendships VALUES('Erin Higgins','Jorma Taccone',0, 'Friends', DATE '2012-08-14');
-INSERT INTO Friendships VALUES('Erin Higgins','Akiva Schaffer',0, 'Friends', DATE '2012-11-11');
+INSERT INTO Friendships VALUES('Erin Higgins','Akiva Shaffer',0, 'Friends', DATE '2012-11-11');
 INSERT INTO Friendships VALUES('John Mulaney','Bill Hader',0, 'Friends', DATE '2013-08-12');
 INSERT INTO Friendships VALUES('Bill Hader','Andy Samberg',0, 'Friends', DATE '2012-08-02');
 INSERT INTO Friendships VALUES('Will Forte','Bill Hader',0, 'Friends', DATE '2015-02-23');
-INSERT INTO Friendships VALUES('Akiva Schaffer','Andy Samberg',0, 'Friends', DATE '2013-02-13');
-INSERT INTO Friendships VALUES('Jorma Taccone','Akiva Schaffer',1, 'Pending', NULL);
+INSERT INTO Friendships VALUES('Akiva Shaffer','Andy Samberg',0, 'Friends', DATE '2013-02-13');
+INSERT INTO Friendships VALUES('Jorma Taccone','Akiva Shaffer',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Andy Samberg','Jorma Taccone',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Andy Samberg','Gabby Means',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Andy Samberg','Maggie Devine',0, 'Friends', DATE '2012-04-03');
@@ -200,7 +204,7 @@ INSERT INTO Friendships VALUES('Gabby Means','Bridget Devine',0, 'Friends', DATE
 INSERT INTO Friendships VALUES('Gabby Means','Maggie Devine',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Kevin Bacon','Andy Samberg',0, 'Friends', DATE '2000-01-01');
 INSERT INTO Friendships VALUES('Kevin Bacon','Jorma Taccone',1, 'Pending', NULL);
-INSERT INTO Friendships VALUES('Kevin Bacon','Akiva Schaffer',0, 'Friends', DATE '2012-08-04');
+INSERT INTO Friendships VALUES('Kevin Bacon','Akiva Shaffer',0, 'Friends', DATE '2012-08-04');
 INSERT INTO Friendships VALUES('Kevin Bacon','John Mulaney',0, 'Friends', DATE '2013-09-01');
 INSERT INTO Friendships VALUES('Kevin Bacon','Petunia Mulaney',0, 'Friends', DATE '2012-09-11');
 INSERT INTO Friendships VALUES('Kevin Bacon','Joanna Newsom',0, 'Friends', DATE '2012-08-05');
@@ -210,7 +214,7 @@ INSERT INTO Friendships VALUES('Maggie Devine','Sophie Means',0, 'Friends', DATE
 INSERT INTO Friendships VALUES('Maggie Devine','Fiona Connelly',0, 'Friends', DATE '2012-08-02');
 INSERT INTO Friendships VALUES('Kalyn Sigg','Bridget Devine',0, 'Friends', DATE '2015-02-23');
 INSERT INTO Friendships VALUES('Kalyn Sigg','Maggie Devine',0, 'Friends', DATE '2015-02-23');
-INSERT INTO Friendships VALUES('Kalyn Sigg','Jim Beluish',1, 'Pending', NULL);
+INSERT INTO Friendships VALUES('Kalyn Sigg','Bill Murry',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Bill Murry','Andy Samberg',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Amy Adams','Bill Hader',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Mark Zuckerberg','Andy Samberg',0, 'Friends', DATE '2012-04-03');
@@ -262,7 +266,7 @@ INSERT INTO Friendships VALUES('Katie Garrity','Lou Marra',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Molly Schnider','Joe Marriuzza',0, 'Friends', DATE '2012-04-03');
 INSERT INTO Friendships VALUES('Molly Schnider','Lou Marra',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Owen Wilson','Vince Vaughn',0, 'Friends', DATE '2008-01-23');
-INSERT INTO Friendships VALUES('Owen Wilson','Bill Murray',0, 'Friends', DATE '2011-06-11');
+INSERT INTO Friendships VALUES('Owen Wilson','Molly Schnider',0, 'Friends', DATE '2011-06-11');
 INSERT INTO Friendships VALUES('Owen Wilson','Bill Hader',0, 'Friends', DATE '2012-08-29');
 INSERT INTO Friendships VALUES('Vince Vaughn','Andy Samberg',0, 'Friends', DATE '2007-04-02');
 INSERT INTO Friendships VALUES('Vince Vaughn','Adam Sandler',0, 'Friends', DATE '2002-01-25');
@@ -305,7 +309,7 @@ INSERT INTO Friendships VALUES('Nick Sullivan','Erin Higgins',0, 'Friends', DATE
 INSERT INTO Friendships VALUES('Nick Sullivan','Joe Lynch',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Nick Sullivan','Kalyn Sigg',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Nick Sullivan','Will Forte',1, 'Pending', NULL);
-INSERT INTO Friendships VALUES('Nick Sullivan','Akiva Schaffer',0, 'Friends', DATE '2012-04-03');
+INSERT INTO Friendships VALUES('Nick Sullivan','Collin Jost',0, 'Friends', DATE '2012-04-03');
 INSERT INTO Friendships VALUES('Collin Jost','Andy Samberg',1, 'pending', NULL);
 INSERT INTO Friendships VALUES('Collin Jost','Bill Hader',0, 'Friends', DATE '2008-01-23');
 INSERT INTO Friendships VALUES('Collin Jost','John Mulaney',0, 'Friends', DATE '2011-06-11');
@@ -316,22 +320,22 @@ INSERT INTO Friendships VALUES('Erin Higgins','Petunia Mulaney',1, 'Pending', NU
 INSERT INTO Friendships VALUES('Erin Higgins','Laura Barton',0, 'Friends', DATE '2000-01-01');
 INSERT INTO Friendships VALUES('Erin Higgins','Lena Ortmann',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Andy Samberg','Bridget Egler',0, 'Friends', DATE '2012-08-04');
-INSERT INTO Friendships VALUES('Andy Samberg','Dan Robertson',0, 'Friends', DATE '2013-09-01');
+INSERT INTO Friendships VALUES('Andy Samberg','Keenan Thompson',0, 'Friends', DATE '2013-09-01');
 INSERT INTO Friendships VALUES('Andy Samberg','Sara Mills',0, 'Friends', DATE '2012-09-11');
 INSERT INTO Friendships VALUES('Andy Samberg','Hannah Barton',0, 'Friends', DATE '2012-08-05');
 INSERT INTO Friendships VALUES('Joanna Newsom','Janna Votodian',0, 'Friends', DATE '2012-08-14');
 INSERT INTO Friendships VALUES('Joanna Newsom','Tommy Becker',0, 'Friends', DATE '2012-11-11');
 INSERT INTO Friendships VALUES('Joanna Newsom','Bridget Egler',0, 'Friends', DATE '2013-08-12');
-INSERT INTO Friendships VALUES('Petunia Mulaney','Bridget Egler',0, 'Friends', DATE '2012-08-02');
+INSERT INTO Friendships VALUES('Petunia Mulaney','Joanna Newsom',0, 'Friends', DATE '2012-08-02');
 INSERT INTO Friendships VALUES('Petunia Mulaney','Maggie Devine',0, 'Friends', DATE '2015-02-23');
 INSERT INTO Friendships VALUES('Petunia Mulaney','Sasha Becker',0, 'Friends', DATE '2013-02-13');
 INSERT INTO Friendships VALUES('Petunia Mulaney','Bridget Egler',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Petunia Mulaney','Lena Ortmann',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Petunia Mulaney','Louis Stylinson',1, 'Pending', NULL);
-INSERT INTO Friendships VALUES('Petunia Mulaney','Bridget Egler',0, 'Friends', DATE '2012-04-03');
-INSERT INTO Friendships VALUES('Petunia Mulaney','Eli Becker',1, 'pending', NULL);
-INSERT INTO Friendships VALUES('Petunia Mulaney','Dan Robertson',0, 'Friends', DATE '2008-01-23');
-INSERT INTO Friendships VALUES('Petunia Mulaney','Bridget Egler',0, 'Friends', DATE '2011-06-11');
+INSERT INTO Friendships VALUES('Petunia Mulaney','Jorma Taccone',0, 'Friends', DATE '2012-04-03');
+INSERT INTO Friendships VALUES('Petunia Mulaney','Fiona Connelly',1, 'pending', NULL);
+INSERT INTO Friendships VALUES('Petunia Mulaney','Harry Styles',0, 'Friends', DATE '2008-01-23');
+INSERT INTO Friendships VALUES('Petunia Mulaney','Amy Adams',0, 'Friends', DATE '2011-06-11');
 INSERT INTO Friendships VALUES('Kevin Bacon','Jared Niall',0, 'Friends', DATE '2012-08-29');
 INSERT INTO Friendships VALUES('Kevin Bacon','Tom Truchok',0, 'Friends', DATE '2007-04-02');
 INSERT INTO Friendships VALUES('Kevin Bacon','Eric Egler',0, 'Friends', DATE '2002-01-25');
@@ -339,23 +343,23 @@ INSERT INTO Friendships VALUES('Kevin Bacon','Bridget Egler',1, 'Pending', NULL)
 INSERT INTO Friendships VALUES('Kevin Bacon','Laura Barton',0, 'Friends', DATE '2000-01-01');
 INSERT INTO Friendships VALUES('Kevin Bacon','Lena Ortmann',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Kevin Bacon','Amy Adams',0, 'Friends', DATE '2012-08-04');
-INSERT INTO Friendships VALUES('Kevin Bacon','Dan Robertson',0, 'Friends', DATE '2013-09-01');
+INSERT INTO Friendships VALUES('Kevin Bacon','Fiona Connelly',0, 'Friends', DATE '2013-09-01');
 INSERT INTO Friendships VALUES('Kevin Bacon','Sara Mills',0, 'Friends', DATE '2012-09-11');
 INSERT INTO Friendships VALUES('Kevin Bacon','Hannah Barton',0, 'Friends', DATE '2012-08-05');
 INSERT INTO Friendships VALUES('Kevin Bacon','Janna Votodian',0, 'Friends', DATE '2012-08-14');
 INSERT INTO Friendships VALUES('Kevin Bacon','Tommy Becker',0, 'Friends', DATE '2012-11-11');
 INSERT INTO Friendships VALUES('Chris Farley','Gabby Means',0, 'Friends', DATE '2013-08-12');
 INSERT INTO Friendships VALUES('Chris Farley','Dominic Means',0, 'Friends', DATE '2012-08-02');
-INSERT INTO Friendships VALUES('Chris Farley','Bridget Egler',0, 'Friends', DATE '2015-02-23');
+INSERT INTO Friendships VALUES('Chris Farley','Joanna Newsom',0, 'Friends', DATE '2015-02-23');
 INSERT INTO Friendships VALUES('Chris Farley','Sasha Becker',0, 'Friends', DATE '2013-02-13');
 INSERT INTO Friendships VALUES('Chris Farley','Bridget Egler',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Chris Farley','Lena Ortmann',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Chris Farley','Louis Stylinson',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Chris Farley','Penny Means',0, 'Friends', DATE '2012-04-03');
-INSERT INTO Friendships VALUES('Chris Farley','Eli Becker',1, 'pending', NULL);
-INSERT INTO Friendships VALUES('Chris Farley','Dan Robertson',0, 'Friends', DATE '2008-01-23');
+INSERT INTO Friendships VALUES('Chris Farley','Fiona Connelly',1, 'pending', NULL);
+INSERT INTO Friendships VALUES('Chris Farley','Harry Styles',0, 'Friends', DATE '2008-01-23');
 INSERT INTO Friendships VALUES('Erin Higgins','Bridget Egler',0, 'Friends', DATE '2012-08-04');
-INSERT INTO Friendships VALUES('Erin Higgins','Dan Robertson',0, 'Friends', DATE '2013-09-01');
+INSERT INTO Friendships VALUES('Erin Higgins','Harry Styles',0, 'Friends', DATE '2013-09-01');
 INSERT INTO Friendships VALUES('Erin Higgins','Sara Mills',0, 'Friends', DATE '2012-09-11');
 INSERT INTO Friendships VALUES('Erin Higgins','Hannah Barton',0, 'Friends', DATE '2012-08-05');
 INSERT INTO Friendships VALUES('Erin Higgins','Janna Votodian',0, 'Friends', DATE '2012-08-14');
@@ -368,8 +372,8 @@ INSERT INTO Friendships VALUES('Penny Means','Bridget Egler',1, 'Pending', NULL)
 INSERT INTO Friendships VALUES('Maggie Devine','Lena Ortmann',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Kalyn Sigg','Louis Stylinson',1, 'Pending', NULL);
 INSERT INTO Friendships VALUES('Joe Lynch','Bridget Egler',0, 'Friends', DATE '2012-04-03');
-INSERT INTO Friendships VALUES('Fiona Connelly','Eli Becker',1, 'pending', NULL);
-INSERT INTO Friendships VALUES('Kalyn Sigg','Dan Robertson',0, 'Friends', DATE '2008-01-23');
+INSERT INTO Friendships VALUES('Fiona Connelly','Harry Styles',1, 'pending', NULL);
+INSERT INTO Friendships VALUES('Kalyn Sigg','Harry Styles',0, 'Friends', DATE '2008-01-23');
 INSERT INTO Friendships VALUES('Kalyn Sigg','Bridget Egler',0, 'Friends', DATE '2011-06-11');
 INSERT INTO Friendships VALUES('Kalyn Sigg','Jared Niall',0, 'Friends', DATE '2012-08-29');
 INSERT INTO Friendships VALUES('Kalyn Sigg','Tom Truchok',0, 'Friends', DATE '2007-04-02');
@@ -426,14 +430,14 @@ INSERT INTO Messages VALUES ('New Restaurant', 'We should check out that new Chi
 INSERT INTO Messages VALUES ('Date Night', 'We should ride go carts for date night!', 'Lena Ortmann',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Cedar Point', 'Did you want to go to cedar point with me this weekend?', 'Lena Ortmann',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Ice Skating', 'We should go ice skating on Friday', 'Lena Ortmann',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Pasta Recipe', 'Can you send me that recipe?', 'Dan Robertson',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Pasta Recipe', 'Can you send me that recipe?', 'Daniel Robertson',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Work', 'I got a new job! We should meet up and discuss it!', 'Sara Mills',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Zoho Creator', 'I cannot generate the right reports, can you help me?', 'Jake Ballard',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Coming in Late', 'I have a doctors appointment tomorrow morning and will be late.', 'Tom Smith',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('New friend', 'Hey I am so glad we could connect on here', 'Harry Styles',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Trip to Cali', 'I will be out of town in California that weekend!', 'Lous stylinson',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Trip to Cali', 'I will be out of town in California that weekend!', 'Gabby Means',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Study Abroad', 'I am going to Singapore for an internship this summer', 'Sara Mills',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('France', 'That is cool, I will be in France', 'Eli Becker',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('France', 'That is cool, I will be in France', 'Maggie Devine',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Treat Yo Self', 'Pedicures and a massage this weekend?', 'Zayn Malik',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Beyonce', 'Did you see that Beyonce documentary?', 'Jake Ballard',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Pixar', 'I applied for a job and I hope I get it!', 'Jeffrey Smolen',DATE '2006-02-01', 0);
@@ -445,7 +449,7 @@ INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!',
 INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('New dog', 'How would you feel about getting another dog?', 'Carter Johnson', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Oscar Party', 'Come over for the Oscars', 'Mark Zsfranski',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Oscar Party', 'Come over for the Oscars', 'Erin Higgins',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Popstar', 'This film was so good, I wish more people would see it!', 'Jeff Egler',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Coffee', 'What did you want again?', 'Kristin Baker',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Movie Marathon', 'We should watch every Mike Meyers film in order', 'Roger Barton',DATE '2006-02-01', 0);
@@ -473,7 +477,7 @@ INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy
 INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', DATE '2006-02-01', 1);
 INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', DATE '2006-02-01', 1);
 INSERT INTO Messages VALUES ('Loser', 'They lost the game', 'Will Forte',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Skyzone', 'They have an american ninja warrior course here!', 'Akiva Schaffer',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Skyzone', 'They have an american ninja warrior course here!', 'Akiva Shaffer',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Brilliant', 'Such great news!', 'Jorma Taccone',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Working', 'I am at work, text you later', 'Andy Samberg',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Friends', 'Can my friends come over later?', 'Andy Samberg',DATE '2006-02-01', 0);
