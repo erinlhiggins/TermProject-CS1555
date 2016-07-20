@@ -10,8 +10,9 @@ DROP TABLE Messages CASCADE CONSTRAINTS;
 ---Making the Profile table
 -- Users must be unique 
 CREATE TABLE Profiles
-(	username 		varchar2(80) PRIMARY KEY,
-    email   		varchar2(30),
+(	userID                  number(2) PRIMARY KEY,
+        username 		varchar2(80) PRIMARY KEY,
+        email   		varchar2(30),
 	dob 			DATE,
 	timeoflastlogin TIMESTAMP,
 	ingroup			varchar2(30)
@@ -22,10 +23,10 @@ CREATE TABLE Profiles
 -- Assumption: sender and recipient must be a user in the system - foreign key from nameofuser and requestto to Profile(username)
 -- Assumption: there cannot be more than one friendship for the same two people - Primary key is nameofuser, requestto
 CREATE TABLE Friendships
-(	nameofuser 	varchar2(80),
-	requestto varchar2(32),
-	request number(1),
-	status  varchar2(32),
+(	nameofuser 	    varchar2(80),
+	requestto           varchar2(32),
+	request             number(1),
+	status              varchar2(32),
 	dateoffriendship    DATE,
 	FOREIGN KEY (nameofuser) REFERENCES Profiles(username),
 	FOREIGN KEY (requestto) REFERENCES Profiles(username), 
@@ -36,10 +37,9 @@ CREATE TABLE Friendships
 -- Assumption: only 100 users allowed in a group
 CREATE TABLE Groups
 (	groupname 	 varchar2(32),
-	description  varchar2(32),
-	numofmembers INTEGER,
-	memberlist   varchar2(500),
-	CONSTRAINT memberlimit CHECK (numofmembers <= 100)
+	description      varchar2(32),
+	numofmembers     INTEGER,
+	memberlist       varchar2(500)
 );
 
 
@@ -49,116 +49,117 @@ CREATE TABLE Messages
 (	subject 	varchar2(40),
 	textmsg         varchar2(100),
 	sender  	varchar2(32),
-	recipient   varchar2(32),
+	recipient       varchar2(32),
 	dateofmsg 	DATE,
-	groupmsg	number(1), 
-	FOREIGN KEY (sender) REFERENCES Profiles(username)
+	groupmsg	varchar2(32), 
+	FOREIGN KEY (sender) REFERENCES Profiles(username),
+	FOREIGN KEY (recipient) REFERENCES Profiles(username)
 );
 
 
 ---Inserting into Profile table
 
-INSERT INTO Profiles VALUES('Tom Hickory', 'tomh12@pitt.edu', DATE '1993-02-01', TIMESTAMP '2002-01-01 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Bridget Egler', 'bse12@pitt.edu', DATE '1993-09-30', TIMESTAMP '2007-02-02 05:15:57', 'NULL');
-INSERT INTO Profiles VALUES('Sara Mills', 'smills01@pitt.edu', DATE '1993-03-09', TIMESTAMP '2007-01-09 02:15:57','NULL');
-INSERT INTO Profiles VALUES('Janna Votodian', 'jmv34@pitt.edu', DATE '1993-03-27', TIMESTAMP '2002-02-07 02:15:55','NULL');
-INSERT INTO Profiles VALUES('Hannah Barton', 'hmb43@pitt.edu', DATE '1993-07-23', TIMESTAMP '2006-03-03 06:15:57','NULL');	
-INSERT INTO Profiles VALUES('Eric Egler', 'erice@pitt.edu', DATE '1992-08-23', TIMESTAMP '2003-05-11 07:15:57','NULL');
-INSERT INTO Profiles VALUES('Jeff Egler', 'potatojeff@pitt.edu', DATE '1990-04-26', TIMESTAMP '2005-03-01 04:15:57', 'NULL');
-INSERT INTO Profiles VALUES('Jeffrey Smolen', 'jeffy@pitt.edu', DATE '1996-01-14', TIMESTAMP '2003-06-02 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Oksana Ortmann', 'oko@pitt.edu', DATE '1989-06-03', TIMESTAMP '2001-02-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Peggy Ortmann', 'psue@pitt.edu', DATE '1980-04-02', TIMESTAMP '2011-01-09 08:15:57','NULL');
-INSERT INTO Profiles VALUES('Mike Ortmann', 'meo1@pitt.edu', DATE '1979-02-01', TIMESTAMP '2012-05-10 07:15:57','NULL');
-INSERT INTO Profiles VALUES('Diane Smolen', 'dianeds3@pitt.edu', DATE '1989-01-21', TIMESTAMP '2011-01-10 09:15:57','NULL');
-INSERT INTO Profiles VALUES('Val Becker', 'vbecker@pitt.edu', DATE '1980-07-24', TIMESTAMP '2010-06-21 07:40:57','NULL');
-INSERT INTO Profiles VALUES('Tommy Becker', 'tomtom42@pitt.edu', DATE '1995-07-21', TIMESTAMP '2009-02-21 05:15:57','NULL');
-INSERT INTO Profiles VALUES('Elisha Becker', 'eliman@pitt.edu', DATE '1994-06-22', TIMESTAMP '2008-05-23 06:15:57','NULL');
-INSERT INTO Profiles VALUES('Sasha Becker', 'snoshers@pitt.edu', DATE '1992-08-23', TIMESTAMP '2007-07-09 07:15:57','NULL');
-INSERT INTO Profiles VALUES('Mike Becker', 'mbecker@pitt.edu', DATE '1980-01-22', TIMESTAMP '2011-07-23 08:12:57','NULL');
-INSERT INTO Profiles VALUES('Daniel Robertson', 'danrob@pitt.edu', DATE '1980-07-14', TIMESTAMP '2011-01-09 01:45:57','NULL');
-INSERT INTO Profiles VALUES('Carter Johnson', 'carterj@pitt.edu', DATE '1993-04-14', TIMESTAMP '2008-03-12 09:22:57','NULL');
-INSERT INTO Profiles VALUES('Mary Lou', 'mmlou@pitt.edu', DATE '1973-06-29', TIMESTAMP '2011-07-15 08:32:57','NULL');
-INSERT INTO Profiles VALUES('Mark Szfranski', 'mks100@pitt.edu', DATE '1993-07-03', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Tom Truchok', 'tomlit45@pitt.edu', DATE '1993-04-23', TIMESTAMP '2003-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Jared Niall', 'niall46@pitt.edu', DATE '1993-02-14', TIMESTAMP '2007-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Nick Calzone', 'creepynick@pitt.edu', DATE '1993-09-30', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Andrea Lang', 'anglang@pitt.edu', DATE '1993-12-01', TIMESTAMP '2009-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Josh Lang', 'jlang@pitt.edu', DATE '1993-10-01', TIMESTAMP '2010-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Jessie Smolen', 'jess678@pitt.edu', DATE '1993-10-10', TIMESTAMP '2001-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Carissa Lang', 'carissa23@pitt.edu', DATE '1990-11-11', TIMESTAMP '2000-11-11 11:11:11','NULL');
-INSERT INTO Profiles VALUES('Laura Barton', 'lmorrisb@pitt.edu', DATE '1960-05-05', TIMESTAMP '2002-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Laura Smolen', 'lsmolen@pitt.edu', DATE '1989-07-01', TIMESTAMP '2014-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Matt Henry', 'coolmatt345@pitt.edu', DATE '1993-02-20', TIMESTAMP '2015-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Sunny Patel', 'sunnyday23@pitt.edu', DATE '1993-02-01', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Matt Francowic', 'baseballmatt@pitt.edu', DATE '1993-07-13', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Shawna Henkel', 'shenkel@pitt.edu', DATE '1993-07-23', TIMESTAMP '2004-04-09 08:23:57','NULL');
-INSERT INTO Profiles VALUES('Don Toomey', 'DrT@pitt.edu', DATE '1993-02-01', TIMESTAMP '2008-07-23 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Kristin Baker', 'KB@pitt.edu', DATE '1993-02-01', TIMESTAMP '2005-05-13 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Jake Ballard', 'Bigballard@pitt.edu', DATE '1993-02-01', TIMESTAMP '2006-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Kenzie Duncan', 'kenzD@pitt.edu', DATE '1992-07-26', TIMESTAMP '2004-04-11 03:32:57','NULL');
-INSERT INTO Profiles VALUES('Kyle Mathias', 'kyletheguy@pitt.edu', DATE '1993-11-16', TIMESTAMP '2006-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Kiel Gierlach', 'kiel34@pitt.edu', DATE '1993-12-24', TIMESTAMP '2006-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Keri Dinkel', 'kdink@pitt.edu', DATE '1993-02-21', TIMESTAMP '2008-04-11 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Liz Hallahan', 'liztheham@pitt.edu', DATE '1993-06-18', TIMESTAMP '2004-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Harry Styles', 'larry@pitt.edu', DATE '1993-10-19', TIMESTAMP '2003-06-14 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Naill Horan', 'nailll23@pitt.edu', DATE '1993-09-05', TIMESTAMP '2000-11-10 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Zayn Malik', 'zaynM@pitt.edu', DATE '1993-04-02', TIMESTAMP '2001-02-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Liam Payne', 'LiamP@pitt.edu', DATE '1993-08-02', TIMESTAMP '2007-12-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Louis Stylinson', 'stylinL@pitt.edu', DATE '1993-12-01', TIMESTAMP '2012-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Andrea Egler', 'AnnoE@pitt.edu', DATE '1993-11-23', TIMESTAMP '2005-04-23 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Roger Barton', 'Rogerdoger@pitt.edu', DATE '1993-10-03', TIMESTAMP '2012-08-21 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Tom Smith', 'Tsmith@pitt.edu', DATE '1993-08-04', TIMESTAMP '2014-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Lena Ortmann', 'leo10@pitt.edu', DATE '1993-02-27', TIMESTAMP '2012-05-05 04:34:57','NULL');
-insert into Profiles values('Erin Higgins', 'elh76@pitt.edu', DATE '1995-04-02', TIMESTAMP '2016-01-09 04:14:23','NULL');
-insert into Profiles values('Gabby Means', 'gbm26@nyu.edu', DATE '1995-03-19', TIMESTAMP '2001-01-04 09:14:56','NULL');
-insert into Profiles values('Kalyn Sigg', 'ksiggie@pitt.edu', DATE '1995-09-05', TIMESTAMP '2010-08-05 15:45:34','NULL');
-insert into Profiles values('Sophie Means', 'sm@gmail.com', DATE '1996-08-19', TIMESTAMP '2012-07-10 19:23:12','NULL');
-insert into Profiles values('Penny Means', 'pmeans@aol.com', DATE '2000-07-12', TIMESTAMP '2014-09-09 14:12:12','NULL');
-insert into Profiles values('Dominic Means','dmeans23@gmail.com', DATE '1998-08-08', TIMESTAMP '2015-12-12 12:12:12','NULL');
-INSERT INTO Profiles VALUES('Bridget Devine', 'bridge@pitt.edu', DATE '1994-02-01', TIMESTAMP '2002-01-01 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Maggie Devine', 'mag@pitt.edu', DATE '1982-09-30', TIMESTAMP '2007-02-02 05:15:57','NULL');
-INSERT INTO Profiles VALUES('Fiona Connelly', 'fion@pitt.edu', DATE '1965-03-09', TIMESTAMP '2007-01-09 02:15:57','NULL');
-INSERT INTO Profiles VALUES('Andy Samberg', 'youngsandwich@pitt.edu', DATE '1945-03-27', TIMESTAMP '2002-02-07 02:15:55','NULL');
-INSERT INTO Profiles VALUES('Jorma Taccone', 'jorm@pitt.edu', DATE '1978-07-23', TIMESTAMP '2006-03-03 06:15:57','NULL');	
-INSERT INTO Profiles VALUES('Akiva Shaffer', 'kiv@pitt.edu', DATE '1985-08-23', TIMESTAMP '2003-05-11 07:15:57','NULL');
-INSERT INTO Profiles VALUES('John Belushi', 'blues@pitt.edu', DATE '1946-04-26', TIMESTAMP '2005-03-01 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Bill Hader', 'stefan@pitt.edu', DATE '1996-01-14', TIMESTAMP '2003-06-02 04:15:57','NULL');
-INSERT INTO Profiles VALUES('John Mulaney', 'jm@pitt.edu', DATE '1989-06-03', TIMESTAMP '2001-02-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('David Spade', 'tommyboy@pitt.edu', DATE '1980-04-02', TIMESTAMP '2011-01-09 08:15:57','NULL');
-INSERT INTO Profiles VALUES('Chris Farley', 'riverliver@pitt.edu', DATE '1979-02-01', TIMESTAMP '2012-05-10 07:15:57','NULL');
-INSERT INTO Profiles VALUES('Chevey Chase', 'vaca@pitt.edu', DATE '1989-01-21', TIMESTAMP '2011-01-10 09:15:57','NULL');
-INSERT INTO Profiles VALUES('Amy Adams', 'notisla@pitt.edu', DATE '1980-07-24', TIMESTAMP '2010-06-21 07:40:57','NULL');
-INSERT INTO Profiles VALUES('Mark Zuckerberg', 'research42@pitt.edu', DATE '1995-07-21', TIMESTAMP '2009-02-21 05:15:57','NULL');
-INSERT INTO Profiles VALUES('Will Forte', 'lastman@pitt.edu', DATE '1994-06-22', TIMESTAMP '2008-05-23 06:15:57','NULL');
-INSERT INTO Profiles VALUES('Adam Sandler', 'lilnicky@pitt.edu', DATE '1992-08-23', TIMESTAMP '2007-07-09 07:15:57','NULL');
-INSERT INTO Profiles VALUES('Will Ferrel', 'lion@pitt.edu', DATE '1980-01-22', TIMESTAMP '2011-07-23 08:12:57','NULL');
-INSERT INTO Profiles VALUES('Kyle Mooney', 'betterthankanye@pitt.edu', DATE '1980-07-14', TIMESTAMP '2011-01-09 01:45:57','NULL');
-INSERT INTO Profiles VALUES('Collin Jost', 'goodhair@pitt.edu', DATE '1993-04-14', TIMESTAMP '2008-03-12 09:22:57','NULL');
-INSERT INTO Profiles VALUES('Pete Davidson', 'luvdavid@pitt.edu', DATE '1973-06-29', TIMESTAMP '2011-07-15 08:32:57','NULL');
-INSERT INTO Profiles VALUES('Joe Lynch', 'jtl44@pitt.edu', DATE '1993-07-03', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Jason Sudekis', 'jls23@pitt.edu', DATE '1993-04-23', TIMESTAMP '2003-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Joanna Newsom', 'barf23@pitt.edu', DATE '1993-02-14', TIMESTAMP '2007-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Petunia Mulaney', 'frenchy12@pitt.edu', DATE '1993-09-30', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Austin Pegg', 'app23@pitt.edu', DATE '1993-12-01', TIMESTAMP '2009-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Michelle Holdney', 'meh34@pitt.edu', DATE '1993-10-01', TIMESTAMP '2010-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Nick Sullivan', 'njs12@pitt.edu', DATE '1993-10-10', TIMESTAMP '2001-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Mathew Perry', 'mtp34@pitt.edu', DATE '1990-11-11', TIMESTAMP '2000-11-11 11:11:11','NULL');
-INSERT INTO Profiles VALUES('Gabe Freeman', 'gef44@pitt.edu', DATE '1960-05-05', TIMESTAMP '2002-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Joe Marriuzza', 'jrm34@pitt.edu', DATE '1989-07-01', TIMESTAMP '2014-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Jess Slain', 'jks22@pitt.edu', DATE '1993-02-20', TIMESTAMP '2015-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Aleena Yobbi', 'aey23@pitt.edu', DATE '1993-02-01', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Lou Marra', 'construct12@pitt.edu', DATE '1993-07-13', TIMESTAMP '2011-01-09 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Molly Schnider', 'mws56@pitt.edu', DATE '1993-07-23', TIMESTAMP '2004-04-09 08:23:57','NULL');
-INSERT INTO Profiles VALUES('Katie Garrity', 'krg45@pitt.edu', DATE '1993-02-01', TIMESTAMP '2008-07-23 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Kristen Bell', 'KB@pitt.edu', DATE '1993-02-01', TIMESTAMP '2005-05-13 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Owen Wilson', 'sunglassesadvil@pitt.edu', DATE '1993-02-01', TIMESTAMP '2006-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Vince Vaughn', 'dive45@pitt.edu', DATE '1992-07-26', TIMESTAMP '2004-04-11 03:32:57','NULL');
-INSERT INTO Profiles VALUES('Bill Murry', 'billtheguy@pitt.edu', DATE '1993-11-16', TIMESTAMP '2006-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Woody Harrelson', 'woody45@pitt.edu', DATE '1993-12-24', TIMESTAMP '2006-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Joe Pecci', 'clown@pitt.edu', DATE '1993-02-21', TIMESTAMP '2008-04-11 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Leslie Jones', 'ninja@pitt.edu', DATE '1993-06-18', TIMESTAMP '2004-02-12 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Keenan Thompson', 'whatup@pitt.edu', DATE '1993-10-19', TIMESTAMP '2003-06-14 04:15:57','NULL');
-INSERT INTO Profiles VALUES('Kevin Bacon', 'numbers@pitt.edu', DATE '1993-09-05', TIMESTAMP '2000-11-10 04:15:57','NULL');
+INSERT INTO Profiles VALUES(1, 'Tom Hickory', 'tomh12@pitt.edu', DATE '1993-02-01', TIMESTAMP '2002-01-01 04:15:57','NULL');
+INSERT INTO Profiles VALUES(2, 'Bridget Egler', 'bse12@pitt.edu', DATE '1993-09-30', TIMESTAMP '2007-02-02 05:15:57', 'NULL');
+INSERT INTO Profiles VALUES(3,'Sara Mills', 'smills01@pitt.edu', DATE '1993-03-09', TIMESTAMP '2007-01-09 02:15:57','NULL');
+INSERT INTO Profiles VALUES(4,'Janna Votodian', 'jmv34@pitt.edu', DATE '1993-03-27', TIMESTAMP '2002-02-07 02:15:55','NULL');
+INSERT INTO Profiles VALUES(5,'Hannah Barton', 'hmb43@pitt.edu', DATE '1993-07-23', TIMESTAMP '2006-03-03 06:15:57','NULL');	
+INSERT INTO Profiles VALUES(6,'Eric Egler', 'erice@pitt.edu', DATE '1992-08-23', TIMESTAMP '2003-05-11 07:15:57','NULL');
+INSERT INTO Profiles VALUES(7,'Jeff Egler', 'potatojeff@pitt.edu', DATE '1990-04-26', TIMESTAMP '2005-03-01 04:15:57', 'NULL');
+INSERT INTO Profiles VALUES(8,'Jeffrey Smolen', 'jeffy@pitt.edu', DATE '1996-01-14', TIMESTAMP '2003-06-02 04:15:57','NULL');
+INSERT INTO Profiles VALUES(9,'Oksana Ortmann', 'oko@pitt.edu', DATE '1989-06-03', TIMESTAMP '2001-02-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(10,'Peggy Ortmann', 'psue@pitt.edu', DATE '1980-04-02', TIMESTAMP '2011-01-09 08:15:57','NULL');
+INSERT INTO Profiles VALUES(11,'Mike Ortmann', 'meo1@pitt.edu', DATE '1979-02-01', TIMESTAMP '2012-05-10 07:15:57','NULL');
+INSERT INTO Profiles VALUES(12,'Diane Smolen', 'dianeds3@pitt.edu', DATE '1989-01-21', TIMESTAMP '2011-01-10 09:15:57','NULL');
+INSERT INTO Profiles VALUES(13,'Val Becker', 'vbecker@pitt.edu', DATE '1980-07-24', TIMESTAMP '2010-06-21 07:40:57','NULL');
+INSERT INTO Profiles VALUES(14,'Tommy Becker', 'tomtom42@pitt.edu', DATE '1995-07-21', TIMESTAMP '2009-02-21 05:15:57','NULL');
+INSERT INTO Profiles VALUES(15,'Elisha Becker', 'eliman@pitt.edu', DATE '1994-06-22', TIMESTAMP '2008-05-23 06:15:57','NULL');
+INSERT INTO Profiles VALUES(16,'Sasha Becker', 'snoshers@pitt.edu', DATE '1992-08-23', TIMESTAMP '2007-07-09 07:15:57','NULL');
+INSERT INTO Profiles VALUES(17,'Mike Becker', 'mbecker@pitt.edu', DATE '1980-01-22', TIMESTAMP '2011-07-23 08:12:57','NULL');
+INSERT INTO Profiles VALUES(18,'Daniel Robertson', 'danrob@pitt.edu', DATE '1980-07-14', TIMESTAMP '2011-01-09 01:45:57','NULL');
+INSERT INTO Profiles VALUES(19,'Carter Johnson', 'carterj@pitt.edu', DATE '1993-04-14', TIMESTAMP '2008-03-12 09:22:57','NULL');
+INSERT INTO Profiles VALUES(20,'Mary Lou', 'mmlou@pitt.edu', DATE '1973-06-29', TIMESTAMP '2011-07-15 08:32:57','NULL');
+INSERT INTO Profiles VALUES(21,'Mark Szfranski', 'mks100@pitt.edu', DATE '1993-07-03', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(22,'Tom Truchok', 'tomlit45@pitt.edu', DATE '1993-04-23', TIMESTAMP '2003-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(23,'Jared Niall', 'niall46@pitt.edu', DATE '1993-02-14', TIMESTAMP '2007-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(24,'Nick Calzone', 'creepynick@pitt.edu', DATE '1993-09-30', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(25,'Andrea Lang', 'anglang@pitt.edu', DATE '1993-12-01', TIMESTAMP '2009-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(26,'Josh Lang', 'jlang@pitt.edu', DATE '1993-10-01', TIMESTAMP '2010-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(27,'Jessie Smolen', 'jess678@pitt.edu', DATE '1993-10-10', TIMESTAMP '2001-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(28,'Carissa Lang', 'carissa23@pitt.edu', DATE '1990-11-11', TIMESTAMP '2000-11-11 11:11:11','NULL');
+INSERT INTO Profiles VALUES(29,'Laura Barton', 'lmorrisb@pitt.edu', DATE '1960-05-05', TIMESTAMP '2002-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(30,'Laura Smolen', 'lsmolen@pitt.edu', DATE '1989-07-01', TIMESTAMP '2014-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(31,'Matt Henry', 'coolmatt345@pitt.edu', DATE '1993-02-20', TIMESTAMP '2015-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(32,'Sunny Patel', 'sunnyday23@pitt.edu', DATE '1993-02-01', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(33,'Matt Francowic', 'baseballmatt@pitt.edu', DATE '1993-07-13', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(34,'Shawna Henkel', 'shenkel@pitt.edu', DATE '1993-07-23', TIMESTAMP '2004-04-09 08:23:57','NULL');
+INSERT INTO Profiles VALUES(35,'Don Toomey', 'DrT@pitt.edu', DATE '1993-02-01', TIMESTAMP '2008-07-23 04:15:57','NULL');
+INSERT INTO Profiles VALUES(36,'Kristin Baker', 'KB@pitt.edu', DATE '1993-02-01', TIMESTAMP '2005-05-13 04:15:57','NULL');
+INSERT INTO Profiles VALUES(37,'Jake Ballard', 'Bigballard@pitt.edu', DATE '1993-02-01', TIMESTAMP '2006-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(38,'Kenzie Duncan', 'kenzD@pitt.edu', DATE '1992-07-26', TIMESTAMP '2004-04-11 03:32:57','NULL');
+INSERT INTO Profiles VALUES(39,'Kyle Mathias', 'kyletheguy@pitt.edu', DATE '1993-11-16', TIMESTAMP '2006-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(40,'Kiel Gierlach', 'kiel34@pitt.edu', DATE '1993-12-24', TIMESTAMP '2006-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(41,'Keri Dinkel', 'kdink@pitt.edu', DATE '1993-02-21', TIMESTAMP '2008-04-11 04:15:57','NULL');
+INSERT INTO Profiles VALUES(42,'Liz Hallahan', 'liztheham@pitt.edu', DATE '1993-06-18', TIMESTAMP '2004-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(43,'Harry Styles', 'larry@pitt.edu', DATE '1993-10-19', TIMESTAMP '2003-06-14 04:15:57','NULL');
+INSERT INTO Profiles VALUES(44,'Naill Horan', 'nailll23@pitt.edu', DATE '1993-09-05', TIMESTAMP '2000-11-10 04:15:57','NULL');
+INSERT INTO Profiles VALUES(45,'Zayn Malik', 'zaynM@pitt.edu', DATE '1993-04-02', TIMESTAMP '2001-02-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(46,'Liam Payne', 'LiamP@pitt.edu', DATE '1993-08-02', TIMESTAMP '2007-12-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(47,'Louis Stylinson', 'stylinL@pitt.edu', DATE '1993-12-01', TIMESTAMP '2012-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(48,'Andrea Egler', 'AnnoE@pitt.edu', DATE '1993-11-23', TIMESTAMP '2005-04-23 04:15:57','NULL');
+INSERT INTO Profiles VALUES(49,'Roger Barton', 'Rogerdoger@pitt.edu', DATE '1993-10-03', TIMESTAMP '2012-08-21 04:15:57','NULL');
+INSERT INTO Profiles VALUES(50,'Tom Smith', 'Tsmith@pitt.edu', DATE '1993-08-04', TIMESTAMP '2014-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(51,'Lena Ortmann', 'leo10@pitt.edu', DATE '1993-02-27', TIMESTAMP '2012-05-05 04:34:57','NULL');
+insert into Profiles values(52,'Erin Higgins', 'elh76@pitt.edu', DATE '1995-04-02', TIMESTAMP '2016-01-09 04:14:23','NULL');
+insert into Profiles values(53,'Gabby Means', 'gbm26@nyu.edu', DATE '1995-03-19', TIMESTAMP '2001-01-04 09:14:56','NULL');
+insert into Profiles values(54,'Kalyn Sigg', 'ksiggie@pitt.edu', DATE '1995-09-05', TIMESTAMP '2010-08-05 15:45:34','NULL');
+insert into Profiles values(55,'Sophie Means', 'sm@gmail.com', DATE '1996-08-19', TIMESTAMP '2012-07-10 19:23:12','NULL');
+insert into Profiles values(56,'Penny Means', 'pmeans@aol.com', DATE '2000-07-12', TIMESTAMP '2014-09-09 14:12:12','NULL');
+insert into Profiles values(57,'Dominic Means','dmeans23@gmail.com', DATE '1998-08-08', TIMESTAMP '2015-12-12 12:12:12','NULL');
+INSERT INTO Profiles VALUES(58,'Bridget Devine', 'bridge@pitt.edu', DATE '1994-02-01', TIMESTAMP '2002-01-01 04:15:57','NULL');
+INSERT INTO Profiles VALUES(59,'Maggie Devine', 'mag@pitt.edu', DATE '1982-09-30', TIMESTAMP '2007-02-02 05:15:57','NULL');
+INSERT INTO Profiles VALUES(60,'Fiona Connelly', 'fion@pitt.edu', DATE '1965-03-09', TIMESTAMP '2007-01-09 02:15:57','NULL');
+INSERT INTO Profiles VALUES(70,'Andy Samberg', 'youngsandwich@pitt.edu', DATE '1945-03-27', TIMESTAMP '2002-02-07 02:15:55','NULL');
+INSERT INTO Profiles VALUES(71,'Jorma Taccone', 'jorm@pitt.edu', DATE '1978-07-23', TIMESTAMP '2006-03-03 06:15:57','NULL');	
+INSERT INTO Profiles VALUES(72,'Akiva Shaffer', 'kiv@pitt.edu', DATE '1985-08-23', TIMESTAMP '2003-05-11 07:15:57','NULL');
+INSERT INTO Profiles VALUES(73,'John Belushi', 'blues@pitt.edu', DATE '1946-04-26', TIMESTAMP '2005-03-01 04:15:57','NULL');
+INSERT INTO Profiles VALUES(74,'Bill Hader', 'stefan@pitt.edu', DATE '1996-01-14', TIMESTAMP '2003-06-02 04:15:57','NULL');
+INSERT INTO Profiles VALUES(75,'John Mulaney', 'jm@pitt.edu', DATE '1989-06-03', TIMESTAMP '2001-02-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(76,'David Spade', 'tommyboy@pitt.edu', DATE '1980-04-02', TIMESTAMP '2011-01-09 08:15:57','NULL');
+INSERT INTO Profiles VALUES(77,'Chris Farley', 'riverliver@pitt.edu', DATE '1979-02-01', TIMESTAMP '2012-05-10 07:15:57','NULL');
+INSERT INTO Profiles VALUES(78,'Chevey Chase', 'vaca@pitt.edu', DATE '1989-01-21', TIMESTAMP '2011-01-10 09:15:57','NULL');
+INSERT INTO Profiles VALUES(79,'Amy Adams', 'notisla@pitt.edu', DATE '1980-07-24', TIMESTAMP '2010-06-21 07:40:57','NULL');
+INSERT INTO Profiles VALUES(80,'Mark Zuckerberg', 'research42@pitt.edu', DATE '1995-07-21', TIMESTAMP '2009-02-21 05:15:57','NULL');
+INSERT INTO Profiles VALUES(81,'Will Forte', 'lastman@pitt.edu', DATE '1994-06-22', TIMESTAMP '2008-05-23 06:15:57','NULL');
+INSERT INTO Profiles VALUES(82,'Adam Sandler', 'lilnicky@pitt.edu', DATE '1992-08-23', TIMESTAMP '2007-07-09 07:15:57','NULL');
+INSERT INTO Profiles VALUES(83,'Will Ferrel', 'lion@pitt.edu', DATE '1980-01-22', TIMESTAMP '2011-07-23 08:12:57','NULL');
+INSERT INTO Profiles VALUES(84,'Kyle Mooney', 'betterthankanye@pitt.edu', DATE '1980-07-14', TIMESTAMP '2011-01-09 01:45:57','NULL');
+INSERT INTO Profiles VALUES(85,'Collin Jost', 'goodhair@pitt.edu', DATE '1993-04-14', TIMESTAMP '2008-03-12 09:22:57','NULL');
+INSERT INTO Profiles VALUES(86,'Pete Davidson', 'luvdavid@pitt.edu', DATE '1973-06-29', TIMESTAMP '2011-07-15 08:32:57','NULL');
+INSERT INTO Profiles VALUES(87,'Joe Lynch', 'jtl44@pitt.edu', DATE '1993-07-03', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(88,'Jason Sudekis', 'jls23@pitt.edu', DATE '1993-04-23', TIMESTAMP '2003-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(89,'Joanna Newsom', 'barf23@pitt.edu', DATE '1993-02-14', TIMESTAMP '2007-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(90,'Petunia Mulaney', 'frenchy12@pitt.edu', DATE '1993-09-30', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(91,'Austin Pegg', 'app23@pitt.edu', DATE '1993-12-01', TIMESTAMP '2009-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(92,'Michelle Holdney', 'meh34@pitt.edu', DATE '1993-10-01', TIMESTAMP '2010-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(93,'Nick Sullivan', 'njs12@pitt.edu', DATE '1993-10-10', TIMESTAMP '2001-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(94,'Mathew Perry', 'mtp34@pitt.edu', DATE '1990-11-11', TIMESTAMP '2000-11-11 11:11:11','NULL');
+INSERT INTO Profiles VALUES(95,'Gabe Freeman', 'gef44@pitt.edu', DATE '1960-05-05', TIMESTAMP '2002-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(96,'Joe Marriuzza', 'jrm34@pitt.edu', DATE '1989-07-01', TIMESTAMP '2014-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(97,'Jess Slain', 'jks22@pitt.edu', DATE '1993-02-20', TIMESTAMP '2015-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(98,'Aleena Yobbi', 'aey23@pitt.edu', DATE '1993-02-01', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(99,'Lou Marra', 'construct12@pitt.edu', DATE '1993-07-13', TIMESTAMP '2011-01-09 04:15:57','NULL');
+INSERT INTO Profiles VALUES(100,'Molly Schnider', 'mws56@pitt.edu', DATE '1993-07-23', TIMESTAMP '2004-04-09 08:23:57','NULL');
+INSERT INTO Profiles VALUES(101,'Katie Garrity', 'krg45@pitt.edu', DATE '1993-02-01', TIMESTAMP '2008-07-23 04:15:57','NULL');
+INSERT INTO Profiles VALUES(102,'Kristen Bell', 'KB@pitt.edu', DATE '1993-02-01', TIMESTAMP '2005-05-13 04:15:57','NULL');
+INSERT INTO Profiles VALUES(103,'Owen Wilson', 'sunglassesadvil@pitt.edu', DATE '1993-02-01', TIMESTAMP '2006-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(104,'Vince Vaughn', 'dive45@pitt.edu', DATE '1992-07-26', TIMESTAMP '2004-04-11 03:32:57','NULL');
+INSERT INTO Profiles VALUES(105,'Bill Murry', 'billtheguy@pitt.edu', DATE '1993-11-16', TIMESTAMP '2006-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(106,'Woody Harrelson', 'woody45@pitt.edu', DATE '1993-12-24', TIMESTAMP '2006-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(107,'Joe Pecci', 'clown@pitt.edu', DATE '1993-02-21', TIMESTAMP '2008-04-11 04:15:57','NULL');
+INSERT INTO Profiles VALUES(108,'Leslie Jones', 'ninja@pitt.edu', DATE '1993-06-18', TIMESTAMP '2004-02-12 04:15:57','NULL');
+INSERT INTO Profiles VALUES(109,'Keenan Thompson', 'whatup@pitt.edu', DATE '1993-10-19', TIMESTAMP '2003-06-14 04:15:57','NULL');
+INSERT INTO Profiles VALUES(110,'Kevin Bacon', 'numbers@pitt.edu', DATE '1993-09-05', TIMESTAMP '2000-11-10 04:15:57','NULL');
 
 
 
