@@ -10,10 +10,10 @@ DROP TABLE Messages CASCADE CONSTRAINTS;
 ---Making the Profile table
 -- Users must be unique 
 CREATE TABLE Profiles
-(	userID                  number(2),
+(	userID                  number(3),
         username 		varchar2(80) PRIMARY KEY,
         email   		varchar2(30),
-	dob 			DATE,
+	dob 			TIMESTAMP,
 	timeoflastlogin TIMESTAMP,
 	ingroup			varchar2(30)
 );
@@ -102,7 +102,7 @@ INSERT INTO Profiles VALUES(40,'Kiel Gierlach', 'kiel34@pitt.edu', DATE '1993-12
 INSERT INTO Profiles VALUES(41,'Keri Dinkel', 'kdink@pitt.edu', DATE '1993-02-21', TIMESTAMP '2008-04-11 04:15:57','NULL');
 INSERT INTO Profiles VALUES(42,'Liz Hallahan', 'liztheham@pitt.edu', DATE '1993-06-18', TIMESTAMP '2004-02-12 04:15:57','NULL');
 INSERT INTO Profiles VALUES(43,'Harry Styles', 'larry@pitt.edu', DATE '1993-10-19', TIMESTAMP '2003-06-14 04:15:57','NULL');
-INSERT INTO Profiles VALUES(44,'Naill Horan', 'nailll23@pitt.edu', DATE '1993-09-05', TIMESTAMP '2000-11-10 04:15:57','NULL');
+INSERT INTO Profiles VALUES(44,'Niall Horan', 'nailll23@pitt.edu', DATE '1993-09-05', TIMESTAMP '2000-11-10 04:15:57','NULL');
 INSERT INTO Profiles VALUES(45,'Zayn Malik', 'zaynM@pitt.edu', DATE '1993-04-02', TIMESTAMP '2001-02-09 04:15:57','NULL');
 INSERT INTO Profiles VALUES(46,'Liam Payne', 'LiamP@pitt.edu', DATE '1993-08-02', TIMESTAMP '2007-12-12 04:15:57','NULL');
 INSERT INTO Profiles VALUES(47,'Louis Stylinson', 'stylinL@pitt.edu', DATE '1993-12-01', TIMESTAMP '2012-02-12 04:15:57','NULL');
@@ -442,7 +442,7 @@ INSERT INTO Messages VALUES ('Pasta Recipe', 'Can you send me that recipe?', 'Da
 INSERT INTO Messages VALUES ('Work', 'I got a new job! We should meet up and discuss it!', 'Sara Mills','Liz Hallahan',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Zoho Creator', 'I cannot generate the right reports, can you help me?', 'Jake Ballard', 'Kristin Baker',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Coming in Late', 'I have a doctors appointment tomorrow morning and will be late.', 'Tom Smith', 'Laura Barton',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('New friend', 'Hey I am so glad we could connect on here', 'Harry Styles', 'Lous Stylinson',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('New friend', 'Hey I am so glad we could connect on here', 'Harry Styles', 'Louis Stylinson',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Trip to Cali', 'I will be out of town in California that weekend!', 'Gabby Means', 'Erin Higgins',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Study Abroad', 'I am going to Singapore for an internship this summer', 'Sara Mills', 'Roger Barton',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('France', 'That is cool, I will be in France', 'Maggie Devine', 'Mary Lou',DATE '2006-02-01', 0);
@@ -603,14 +603,14 @@ INSERT INTO Messages VALUES ('You are awesome', 'Thanks for all the help', 'Kris
 INSERT INTO Messages VALUES ('Blender', 'I got a new blender', 'Kristen Bell', 'Lena Ortmann',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Nutrabullet', 'I got a new nutrabullet', 'Joe Pecci', 'Sara Mills',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Democracy', 'I am glad we can vote', 'Joe Pecci', 'Will Forte',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Gas bill', 'The bill was very high!', 'Joe Pecci',' Owen Wislon',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Gas bill', 'The bill was very high!', 'Joe Pecci','Owen Wilson',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Voting', 'Is a right', 'Joe Pecci', 'Leslie Jones',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Quarters', 'How many quarters are in football, though?', 'Joe Pecci', 'Kevin Bacon',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Fresh salad', 'I made you a salad for lunch', 'Woody Harrelson','Vince Vaughn', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Hospital visit', 'I am visiting grandpa later, you should come.', 'Woody Harrelson','Kevin Bacon', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Choir trip', 'We are going to Italy', 'Woody Harrelson', 'Niall Horan',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Love and hate', 'Love this movie', 'Woody Harrelson', 'Zayn Malik',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Love and death', 'Love this movie', 'Woody Harrelson', 'Lous Stylinson',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Love and death', 'Love this movie', 'Woody Harrelson', 'Louis Stylinson',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Love you like a brother', 'Just not one of mine', 'Andy Samberg', 'Harry Styles', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Baby!', 'Did you have your baby, yet?', 'Pete Davidson','Nick Sullivan', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Punching bag', 'Just bought one', 'Pete Davidson', 'Austin Pegg',DATE '2006-02-01', 0);
