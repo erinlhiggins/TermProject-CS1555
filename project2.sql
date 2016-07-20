@@ -10,7 +10,7 @@ DROP TABLE Messages CASCADE CONSTRAINTS;
 ---Making the Profile table
 -- Users must be unique 
 CREATE TABLE Profiles
-(	userID                  number(2) PRIMARY KEY,
+(	userID                  number(2),
         username 		varchar2(80) PRIMARY KEY,
         email   		varchar2(30),
 	dob 			DATE,
