@@ -39,7 +39,7 @@ CREATE TABLE Groups
 (	groupname 	 varchar2(32),
 	description      varchar2(32),
 	numofmembers     INTEGER,
-	memberlist       varchar2(500)
+	membershiplimit  number(3)
 );
 
 
@@ -51,9 +51,7 @@ CREATE TABLE Messages
 	sender  	varchar2(32),
 	recipient       varchar2(32),
 	dateofmsg 	DATE,
-	groupmsg	varchar2(32), 
-	FOREIGN KEY (sender) REFERENCES Profiles(username),
-	FOREIGN KEY (recipient) REFERENCES Profiles(username)
+	groupmsg	varchar2(32)
 );
 
 
@@ -111,7 +109,7 @@ INSERT INTO Profiles VALUES(49,'Roger Barton', 'Rogerdoger@pitt.edu', DATE '1993
 INSERT INTO Profiles VALUES(50,'Tom Smith', 'Tsmith@pitt.edu', DATE '1993-08-04', TIMESTAMP '2014-02-12 04:15:57','NULL');
 INSERT INTO Profiles VALUES(51,'Lena Ortmann', 'leo10@pitt.edu', DATE '1993-02-27', TIMESTAMP '2012-05-05 04:34:57','NULL');
 insert into Profiles values(52,'Erin Higgins', 'elh76@pitt.edu', DATE '1995-04-02', TIMESTAMP '2016-01-09 04:14:23','NULL');
-insert into Profiles values(53,'Gabby Means', 'gbm26@nyu.edu', DATE '1995-03-19', TIMESTAMP '2001-01-04 09:14:56','NULL');
+insert into Profiles values(53,'Gabby Means', 'gbm26@nyu.edu', DATE '1995-03-19', TIMESTAMP '2006-10-10 09:14:56','NULL');
 insert into Profiles values(54,'Kalyn Sigg', 'ksiggie@pitt.edu', DATE '1995-09-05', TIMESTAMP '2010-08-05 15:45:34','NULL');
 insert into Profiles values(55,'Sophie Means', 'sm@gmail.com', DATE '1996-08-19', TIMESTAMP '2012-07-10 19:23:12','NULL');
 insert into Profiles values(56,'Penny Means', 'pmeans@aol.com', DATE '2000-07-12', TIMESTAMP '2014-09-09 14:12:12','NULL');
@@ -403,14 +401,14 @@ INSERT INTO Groups VALUES('Silicon Valley Fan Club', 'Thomas forever', 0, NULL);
 INSERT INTO Groups VALUES('Hot Rod Fan Club', 'Stunts forever', 0, NULL);
 
 ---Inserting into Messages
-INSERT INTO Messages VALUES ('Movie Idea', 'Hey I have a great idea for a film. Messages me back!', 'Andy Samberg', 'Harry Styles', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Erin Higgins', DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Gabby Means',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Kalyn Sigg',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Austin Pegg', DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Lena Ortmann', DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Kevin Bacon', DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Sara Mills', DATE '2006-02-01', 1);
+INSERT INTO Messages VALUES ('Movie Idea', 'Hey I have a great idea for a film. Messages me back!', 'Andy Samberg', 'Harry Styles', DATE '2012-02-01', 0);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Erin Higgins', DATE '2014-02-01', 1);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Gabby Means',DATE '2013-02-01', 1);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Kalyn Sigg',DATE '2015-02-01', 1);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Austin Pegg', DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Lena Ortmann', DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Kevin Bacon', DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Weekend Plans', 'Lets go to the cabin this weekend!', 'Bridget Devine', 'Sara Mills', DATE '2016-02-01', 1);
 INSERT INTO Messages VALUES ('Party', 'Friday at 9pm at my apartment!', 'Andy Samberg', 'Harry Styles', DATE '2016-05-05', 1);
 INSERT INTO Messages VALUES ('Party', 'Friday at 9pm at my apartment!', 'Andy Samberg', 'Zayn Malik', DATE '2016-05-05', 1);
 INSERT INTO Messages VALUES ('Party', 'Friday at 9pm at my apartment!', 'Andy Samberg', 'Louis Stylinson',DATE '2016-05-05', 1);
@@ -435,82 +433,82 @@ INSERT INTO Messages VALUES ('Party', 'Friday at 9pm at my apartment!', 'Andy Sa
 INSERT INTO Messages VALUES ('Missing You', 'Cannot wait for you to get home!', 'Lena Ortmann','Carter Johnson',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Favorite Film', 'I love Reservoir Dogs!', 'Lena Ortmann','Hannah Barton',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('New Restaurant', 'We should check out that new Chinese place', 'Lena Ortmann', 'Tom Truchok',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Date Night', 'We should ride go carts for date night!', 'Lena Ortmann','Matt Henry',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Cedar Point', 'Did you want to go to cedar point with me this weekend?', 'Lena Ortmann', 'Bridget Egler',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Ice Skating', 'We should go ice skating on Friday', 'Lena Ortmann', 'Josh Lang',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Pasta Recipe', 'Can you send me that recipe?', 'Daniel Robertson','Bridget Egler',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Date Night', 'We should ride go carts for date night!', 'Lena Ortmann','Matt Henry',DATE '2010-02-01', 0);
+INSERT INTO Messages VALUES ('Cedar Point', 'Did you want to go to cedar point with me this weekend?', 'Lena Ortmann', 'Bridget Egler',DATE '2009-02-01', 0);
+INSERT INTO Messages VALUES ('Ice Skating', 'We should go ice skating on Friday', 'Lena Ortmann', 'Josh Lang',DATE '2008-02-01', 0);
+INSERT INTO Messages VALUES ('Pasta Recipe', 'Can you send me that recipe?', 'Daniel Robertson','Bridget Egler',DATE '2007-02-01', 0);
 INSERT INTO Messages VALUES ('Work', 'I got a new job! We should meet up and discuss it!', 'Sara Mills','Liz Hallahan',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Zoho Creator', 'I cannot generate the right reports, can you help me?', 'Jake Ballard', 'Kristin Baker',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Coming in Late', 'I have a doctors appointment tomorrow morning and will be late.', 'Tom Smith', 'Laura Barton',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('New friend', 'Hey I am so glad we could connect on here', 'Harry Styles', 'Louis Stylinson',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Trip to Cali', 'I will be out of town in California that weekend!', 'Gabby Means', 'Erin Higgins',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Study Abroad', 'I am going to Singapore for an internship this summer', 'Sara Mills', 'Roger Barton',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('France', 'That is cool, I will be in France', 'Maggie Devine', 'Mary Lou',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Treat Yo Self', 'Pedicures and a massage this weekend?', 'Zayn Malik', 'Harry Styles',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Beyonce', 'Did you see that Beyonce documentary?', 'Jake Ballard', 'Sunny Patel',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Pixar', 'I applied for a job and I hope I get it!', 'Jeffrey Smolen','Carissa Lang',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Chris Pratt', 'He is really blowing up recently!', 'Erin Higgins','Matt Francowic', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Andrea Egler', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Shawna Henkel', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Keri Dinkel', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Jared Niall', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins', 'Nick Calzone',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins', 'Don Toomey',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Zoho Creator', 'I cannot generate the right reports, can you help me?', 'Jake Ballard', 'Kristin Baker',DATE '2005-02-01', 0);
+INSERT INTO Messages VALUES ('Coming in Late', 'I have a doctors appointment tomorrow morning and will be late.', 'Tom Smith', 'Laura Barton',DATE '2004-02-01', 0);
+INSERT INTO Messages VALUES ('New friend', 'Hey I am so glad we could connect on here', 'Harry Styles', 'Louis Stylinson',DATE '2003-02-01', 0);
+INSERT INTO Messages VALUES ('Trip to Cali', 'I will be out of town in California that weekend!', 'Gabby Means', 'Erin Higgins',DATE '2002-02-01', 0);
+INSERT INTO Messages VALUES ('Study Abroad', 'I am going to Singapore for an internship this summer', 'Sara Mills', 'Roger Barton',DATE '2001-02-01', 0);
+INSERT INTO Messages VALUES ('France', 'That is cool, I will be in France', 'Maggie Devine', 'Mary Lou',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Treat Yo Self', 'Pedicures and a massage this weekend?', 'Zayn Malik', 'Harry Styles',DATE '2015-02-01', 0);
+INSERT INTO Messages VALUES ('Beyonce', 'Did you see that Beyonce documentary?', 'Jake Ballard', 'Sunny Patel',DATE '2014-02-01', 0);
+INSERT INTO Messages VALUES ('Pixar', 'I applied for a job and I hope I get it!', 'Jeffrey Smolen','Carissa Lang',DATE '2013-02-01', 0);
+INSERT INTO Messages VALUES ('Chris Pratt', 'He is really blowing up recently!', 'Erin Higgins','Matt Francowic', DATE '2012-02-01', 0);
+INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Andrea Egler', DATE '2010-02-01', 0);
+INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Shawna Henkel', DATE '2012-02-01', 0);
+INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Keri Dinkel', DATE '2011-02-01', 0);
+INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins','Jared Niall', DATE '2009-02-01', 0);
+INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins', 'Nick Calzone',DATE '2008-02-01', 0);
+INSERT INTO Messages VALUES ('Tea Time', 'We should get tea on Sunday morning!', 'Erin Higgins', 'Don Toomey',DATE '2007-02-01', 0);
 INSERT INTO Messages VALUES ('New dog', 'How would you feel about getting another dog?', 'Carter Johnson','Kenzie Duncan', DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Oscar Party', 'Come over for the Oscars', 'Erin Higgins', 'Mark Szfranski',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Popstar', 'This film was so good, I wish more people would see it!', 'Jeff Egler', 'Eric Egler',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Coffee', 'What did you want again?', 'Kristin Baker', 'Tom Hickory',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Movie Marathon', 'We should watch every Mike Meyers film in order', 'Roger Barton','Laura Barton',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Practice Session', 'Did you still want to practice your speech with me?', 'Nick Calzone', 'Sasha Becker',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Early 90s', 'Best music for sure', 'Erin Higgins','Tommy Becker',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Skating', 'We should go roller skating sometime', 'Erin Higgins', 'Elisha Becker',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Calzones', 'They are my favorite food!', 'Erin Higgins', 'Mike Ortmann',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Criss Cross', 'Such a great artist', 'Erin Higgins','Janna Votodian',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Babyface', 'An even greater artist!', 'Erin Higgins','Jeffrey Smolen',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Baseball Tickets', 'I have tickets for Friday, want to come?', 'Erin Higgins', 'Peggy Ortmann',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Doctors without boarders', 'I will be gone for several months', 'John Mulaney','Diane Smolen',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Arcade', 'Did you hear about that new arcade in South Side?', 'Bill Hader','Mike Becker',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Val Becker',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Bill Hader',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Amy Adams',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Dominic Means',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Fiona Connelly',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Akiva Shaffer',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Chris Farley',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Chevey Chase',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Penny Means',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Tom Smith',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Lena Ortmann',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Erin Higgins',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Pete Davidson',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Bill Hader',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Loser', 'They lost the game', 'Will Forte','Joe Lynch',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Skyzone', 'They have an american ninja warrior course here!', 'Akiva Shaffer','Bridget Devine',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Brilliant', 'Such great news!', 'Jorma Taccone','Maggie Devine',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Working', 'I am at work, text you later', 'Andy Samberg','Will Ferrel',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Friends', 'Can my friends come over later?', 'Andy Samberg','Joe Lynch',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('New script', 'Let me know what you think of this!', 'Andy Samberg','Mark Zuckerberg',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Meetings', 'I will be in meetings all day, we can talk over lunch', 'Andy Samberg','Adam Sandler',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Travel Plans', 'I will be back on the 17th', 'Bridget Devine','Joe Lynch',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Rollerskating', 'I am terrified of rollerskating', 'Sophie Means','Molly Schnider',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Yield', 'The yield sign is obstructed', 'Gabby Means','Owen Wilson',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Marriage', 'We should get married', 'Gabby Means','Vince Vaughn',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('New cat', 'I just got a new cat', 'Gabby Means', 'Woody Harrelson',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('New fish', 'I just got a new fish', 'Gabby Means','Leslie Jones',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Short film', 'I just made a short film', 'Kevin Bacon','Nick Sullivan',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Peanut allergy', 'Make sure everything is okay for me to eat!', 'Kevin Bacon','Mathew Perry',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Beach', 'Did you book a house yet?', 'Kevin Bacon','Gabe Freeman',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('San Fransisco' , 'I am moving there in 2017', 'Kevin Bacon','Jason Sudekis',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('NBC', 'They just approved our show!', 'Kevin Bacon', 'Nick Sullivan',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Lorne', 'He says he misses you!', 'Kevin Bacon', 'Oksana Ortmann',DATE '2006-02-01', 0);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Tommy Becker',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Eric Egler',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Jeffrey Smolen',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Bridget Egler',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Lena Ortmann',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Harry Styles',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Kristin Baker',DATE '2006-02-01', 1);
-INSERT INTO Messages VALUES ('Drive in', 'This would be great for date night!', 'Kevin Bacon', 'Nick Calzone',DATE '2006-02-01', 0);
+INSERT INTO Messages VALUES ('Oscar Party', 'Come over for the Oscars', 'Erin Higgins', 'Mark Szfranski',DATE '2005-02-01', 0);
+INSERT INTO Messages VALUES ('Popstar', 'This film was so good, I wish more people would see it!', 'Jeff Egler', 'Eric Egler',DATE '2004-02-01', 0);
+INSERT INTO Messages VALUES ('Coffee', 'What did you want again?', 'Kristin Baker', 'Tom Hickory',DATE '2004-02-01', 0);
+INSERT INTO Messages VALUES ('Movie Marathon', 'We should watch every Mike Meyers film in order', 'Roger Barton','Laura Barton',DATE '2012-02-01', 0);
+INSERT INTO Messages VALUES ('Practice Session', 'Did you still want to practice your speech with me?', 'Nick Calzone', 'Sasha Becker',DATE '2012-02-01', 0);
+INSERT INTO Messages VALUES ('Early 90s', 'Best music for sure', 'Erin Higgins','Tommy Becker',DATE '2014-02-01', 0);
+INSERT INTO Messages VALUES ('Skating', 'We should go roller skating sometime', 'Erin Higgins', 'Elisha Becker',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Calzones', 'They are my favorite food!', 'Erin Higgins', 'Mike Ortmann',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Criss Cross', 'Such a great artist', 'Erin Higgins','Janna Votodian',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Babyface', 'An even greater artist!', 'Erin Higgins','Jeffrey Smolen',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Baseball Tickets', 'I have tickets for Friday, want to come?', 'Erin Higgins', 'Peggy Ortmann',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Doctors without boarders', 'I will be gone for several months', 'John Mulaney','Diane Smolen',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Arcade', 'Did you hear about that new arcade in South Side?', 'Bill Hader','Mike Becker',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Val Becker',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Bill Hader',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Amy Adams',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Dominic Means',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Fiona Connelly',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Akiva Shaffer',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Chris Farley',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Chevey Chase',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Penny Means',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Tom Smith',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Lena Ortmann',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Erin Higgins',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Pete Davidson',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Starbucks order', 'Respond with your order', 'Andy Samberg', 'Bill Hader',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Loser', 'They lost the game', 'Will Forte','Joe Lynch',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Skyzone', 'They have an american ninja warrior course here!', 'Akiva Shaffer','Bridget Devine',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Brilliant', 'Such great news!', 'Jorma Taccone','Maggie Devine',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Working', 'I am at work, text you later', 'Andy Samberg','Will Ferrel',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Friends', 'Can my friends come over later?', 'Andy Samberg','Joe Lynch',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('New script', 'Let me know what you think of this!', 'Andy Samberg','Mark Zuckerberg',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Meetings', 'I will be in meetings all day, we can talk over lunch', 'Andy Samberg','Adam Sandler',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Travel Plans', 'I will be back on the 17th', 'Bridget Devine','Joe Lynch',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Rollerskating', 'I am terrified of rollerskating', 'Sophie Means','Molly Schnider',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Yield', 'The yield sign is obstructed', 'Gabby Means','Owen Wilson',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Marriage', 'We should get married', 'Gabby Means','Vince Vaughn',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('New cat', 'I just got a new cat', 'Gabby Means', 'Woody Harrelson',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('New fish', 'I just got a new fish', 'Gabby Means','Leslie Jones',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Short film', 'I just made a short film', 'Kevin Bacon','Nick Sullivan',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Peanut allergy', 'Make sure everything is okay for me to eat!', 'Kevin Bacon','Mathew Perry',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Beach', 'Did you book a house yet?', 'Kevin Bacon','Gabe Freeman',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('San Fransisco' , 'I am moving there in 2017', 'Kevin Bacon','Jason Sudekis',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('NBC', 'They just approved our show!', 'Kevin Bacon', 'Nick Sullivan',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Lorne', 'He says he misses you!', 'Kevin Bacon', 'Oksana Ortmann',DATE '2016-02-01', 0);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Tommy Becker',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Eric Egler',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Jeffrey Smolen',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Bridget Egler',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Lena Ortmann',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Harry Styles',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Friday Night', 'Want to see that new movie?', 'Gabby Means',  'Kristin Baker',DATE '2016-02-01', 1);
+INSERT INTO Messages VALUES ('Drive in', 'This would be great for date night!', 'Kevin Bacon', 'Nick Calzone',DATE '2016-02-01', 0);
 INSERT INTO Messages VALUES ('Chairs', 'Did you move those chairs yet?', 'Kevin Bacon', 'Don Toomey',DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Couch', 'Did you move that couch yet?', 'Maggie Devine','Kiel Gierlach', DATE '2006-02-01', 0);
 INSERT INTO Messages VALUES ('Movie', 'I just saw that movie, it was great', 'Maggie Devine','Kyle Mathias',DATE '2006-02-01', 0);
