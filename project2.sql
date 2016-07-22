@@ -34,7 +34,6 @@ CREATE TABLE Friendships
 );
 
 ---Making the Group table
--- Assumption: only 100 users allowed in a group
 CREATE TABLE Groups
 (	groupname 	 varchar2(32),
 	description      varchar2(32),
