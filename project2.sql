@@ -53,6 +53,13 @@ CREATE TABLE Messages
 	groupmsg	varchar2(32)
 );
 
+create or replace trigger dropusergroup
+  before delete on Profiles for each row
+  when (old.ingroup is not null)
+  begin
+  update Groups set numofmembers = numofmembers - 1 where groupname = :old.ingroup;
+  end;
+  /
 
 ---Inserting into Profile table
 
