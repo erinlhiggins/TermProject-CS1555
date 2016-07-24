@@ -23,45 +23,45 @@ public class project {
 	case 1:
 	    createUser();
 	    break;
-	//case 2:
-	   // initiateFriendship();
-	    //break;
+	case 2:
+	   initiateFriendship();
+	   break;
 	case 3:
 	   establishFriendship();
 	    break;
-	//case 4:
-	  //  displayFriends();
-	    //break;
+	case 4:
+	    displayFriends();
+	    break;
 	case 5: 
 	  createGroup();
 	   break;
-	//case 6:
-	  //  addToGroup();
-	    //break; 
+	case 6:
+	    addToGroup();
+	    break; 
 	case 7:
 	  sendMessageTouser();
 	    break;
-	//case 8:
-	  //  sendMessageToGroup();
-	    //break;
+	case 8:
+	    sendMessageToGroup();
+	    break;
 	case 9: 
 	   displayMessages();
 	   break;
-	//case 10:
-	  //  displayNewMessages();
-	    //break;
+	case 10:
+	    displayNewMessages();
+	    break;
 	case 11:
 	  searchForUser();
 	  break;
-	 //case 12:
-	  // threeDegrees();
-	   // break;
+	 case 12:
+	   threeDegrees();
+	    break;
 	case 13:
 		topMessages(x, k);
 		break;
-    //case 14:
-	  //  dropUser();
-	    //break;
+        case 14:
+	    dropUser();
+	    break;
 	default:
 	    System.out.println("Example not found for your entry: " + question_no);
 	    try {
@@ -121,7 +121,50 @@ public class project {
 	
  //FUNCTION 2 : initiateFriendship
 
+        public void initiateFriendship() {
 
+	try{
+	    query = "insert into Friendships values (?,?,?,?,?)";
+    	prepStatement = connection.prepareStatement(query);
+    	
+    	Scanner keyboard = new Scanner(System.in);
+		System.out.println("Your username:");
+		String name1 = keyboard.nextLine();
+		System.out.println("Friend to request:");
+		String name2 = keyboard.nextLine();
+		
+		String status = "pending";
+	    long request = 0;
+	    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	    java.sql.Date date_reg = new java.sql.Date (df.parse("2016-07-10").getTime());
+		
+		prepStatement.setString(1, name1); 
+	    prepStatement.setString(2, name2);
+	    prepStatement.setLong(3, request);
+	    prepStatement.setString(4, status);
+	    prepStatement.setDate(5, date_reg);
+	    // Now that the statement is ready. Let's execute it. Note the use of 
+	    // executeUpdate for insertions and updates instead of executeQuery for 
+	    // selections.
+	    prepStatement.executeUpdate();
+	    
+	}
+	catch(SQLException Ex) {
+	    System.out.println("Error running the sample queries.  Machine Error: " +
+			       Ex.toString());
+	} catch (ParseException e) {
+		System.out.println("Error parsing the date. Machine Error: " +
+		e.toString());
+	}
+	finally{
+		try {
+			if (statement != null) statement.close();
+			if (prepStatement != null) prepStatement.close();
+		} catch (SQLException e) {
+			System.out.println("Cannot close Statement. Machine error: "+e.toString());
+		}
+	}
+        }
  
 	
 	
@@ -171,7 +214,37 @@ public class project {
 	}
 	
 	//FUNCTION 4: displayFriends
+	public void displayFriends() {
+	try {
+	   query ="select * from Friendships where nameofuser = ?";
+	   prepStatement = connection.prepareStatement(query);
+	   Scanner keyboard = new Scanner(System.in);
+	   System.out.println("Your username:");
+	   String name1 = keyboard.nextLine();
+	   prepStatement.setString(1, name1);
+	   
+	    ResultSet resultSet = prepStatement.executeQuery();
+	    System.out.println("NAMEOFUSER\tREQUESTTO\tREQUEST\tSTATUS\tDATEOFFRIENDSHIP");
+	    while(resultSet.next())
+	    {
+	    	System.out.println(resultSet.getString(1)+"\t"+resultSet.getString(2)+"\t"+resultSet.getLong(3)+"\t"+resultSet.getString(4)+"\t"+resultSet.getDate(5));
+	    }
+	    resultSet.close();
+	}	
+	catch(Exception Ex)  
+	{
+		System.out.println("Machine Error: " +
+				   Ex.toString());
+	}
+	finally{
+		try {
+			if (statement!=null) statement.close();
+		} catch (SQLException e) {
+			System.out.println("Cannot close Statement. Machine error: "+e.toString());
+		}
+	}
 	
+        }
 	
 	
 	
@@ -214,7 +287,39 @@ public void createGroup(){
 }
 
 //FUNCTION 6: addToGroup
-
+    public void addToGroup() {
+	
+	try {
+    	
+    	Scanner keyboard = new Scanner(System.in);
+		System.out.println("Username:");
+		String name1 = keyboard.nextLine();
+		System.out.println("Group:");
+		String name2 = keyboard.nextLine();
+	    
+	    query = "update Profiles set ingroup = ? where username = ?";
+	    prepStatement = connection.prepareStatement(query);
+	    prepStatement.setString(1, name2);
+	    prepStatement.setString(2, name1);
+	    prepStatement.executeUpdate();
+	    
+	    query = "update Groups set numofmembers = numofmembers + 1 where groupname = ?";
+    	prepStatement = connection.prepareStatement(query);
+		prepStatement.setString(1, name2); 
+	    prepStatement.executeUpdate();
+	}	
+	catch(Exception Ex)  {
+	    System.out.println("Machine Error: " +
+			       Ex.toString());
+	}
+	finally{
+		try {
+			if (statement!=null) statement.close();
+		} catch (SQLException e) {
+			System.out.println("Cannot close Statement. Machine error: "+e.toString());
+		}
+	}
+    }
 
 
 
@@ -278,7 +383,55 @@ public void sendMessageTouser(){
 }
 
 //FUNCTION 8: sendMessageToGroup
-
+    public void sendMessageToGroup() {
+	try{
+	    query = "select username from Profiles where ingroup = ?";
+	    prepStatement = connection.prepareStatement(query);
+	    
+	    Scanner keyboard = new Scanner(System.in);
+	    System.out.println("Enter your username: ");
+	    String user = keyboard.nextLine();
+		System.out.println("Group to send to:");
+		String name1 = keyboard.nextLine();
+		System.out.println("Subject: ");
+		String sub = keyboard.nextLine();
+		System.out.println("Message: ");
+		String message = keyboard.nextLine();
+		
+		prepStatement.setString(1, name1);
+		
+		ResultSet resultset = prepStatement.executeQuery();
+		while(resultset.next())
+		{
+		    String value = resultset.getString(1);
+			query = "insert into Messages values (?, ?, ?, ?, ?, ?)";
+			prepStatement = connection.prepareStatement(query);
+			
+			prepStatement.setString(1, sub);
+			prepStatement.setString(2, message);
+			prepStatement.setString(3, user);
+			prepStatement.setString(4, value);
+			 java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	         java.sql.Date date_reg = new java.sql.Date (df.parse("2012-02-24").getTime());
+			prepStatement.setDate(5, date_reg);
+			prepStatement.setString(6, name1);
+			
+			prepStatement.executeUpdate();
+		}
+		
+	}	
+	catch(Exception Ex) {
+	    System.out.println("Machine Error: " +
+			       Ex.toString());
+	}
+	finally{
+		try {
+			if (statement !=null) statement.close();
+		} catch (SQLException e) {
+			System.out.println("Cannot close Statement. Machine error: "+e.toString());
+		}
+	}
+   }
 
 
 
@@ -322,7 +475,39 @@ catch(SQLException Ex) {
 
 
 //FUNCTION 10: displayNewMessages
+	public void displayNewMessages() {
+		try {
+		query = "select * from Messages where recipient = ? AND dateofmsg > (select timeoflastlogin from Profiles where username = ?)";
+    	prepStatement = connection.prepareStatement(query);
+    	
+    	Scanner keyboard = new Scanner(System.in);
+		System.out.println("Username:");
+		String name1 = keyboard.nextLine();
+		
+		prepStatement.setString(1, name1); 
+	    prepStatement.setString(2, name1);
+	    
+	    ResultSet resultSet = prepStatement.executeQuery();
+	    System.out.println("SUBJECT\t\tTEXTMSG\t\t\t\t\tSENDER\t\tRECIPIENT\tDATEOFMSG\tGROUPMSG");
+	    while(resultSet.next())
+	    {
+	    	System.out.println(resultSet.getString(1)+"\t"+resultSet.getString(2)+"\t"+resultSet.getString(3)+"\t"+resultSet.getString(4)+"\t"+resultSet.getDate(5)+"\t"+resultSet.getString(6));
+	    }
+	    resultSet.close();
+			
+		} catch (Exception Ex) {
+			System.out.println("Machine Error: " + Ex.toString());
+		}
+		finally{
+			try {
+				if (statement!=null) statement.close();
+			} catch (SQLException e) {
+				System.out.println("Cannot close Statement. Machine error: "+e.toString());
+			}
+		}
 
+	}
+	
 //Question 11: searchForUser
 public void searchForUser()
 { 
@@ -378,7 +563,77 @@ Scanner scanner = new Scanner(System.in);
 }
 
 //FUNCTION  12: threeDegrees
+	public void threeDegrees() {
+		try {
+		
+		int found = 0;
+		query = "select requestto from Friendships where (nameofuser = ? AND requestto = ?) OR (nameofuser = ? AND requestto = ?) AND status = 'Friends'";
+		prepStatement = connection.prepareStatement(query);
+		
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Username:");
+		String name1 = keyboard.nextLine();
+		System.out.println("Other Person:");
+		String name2 = keyboard.nextLine();
+		prepStatement.setString(1, name1);
+		prepStatement.setString(2, name2);
+		prepStatement.setString(3, name2);
+		prepStatement.setString(4, name1);
+		
+		ResultSet resultSet = prepStatement.executeQuery();
+		if(!resultSet.next())
+		{
+		 query = "select requestto from Friendships where nameofuser = ? AND status = 'Friends'";
+		 prepStatement = connection.prepareStatement(query);
+		 prepStatement.setString(1, name1);
+		 
+		 ResultSet resultSet2 = prepStatement.executeQuery();
+		 
+		while(resultSet2.next())
+	    {
+	        String value = resultSet2.getString(1);
+	    	query = "select requestto from Friendships where (nameofuser = ? and requestto = ?) OR (nameofuser = ? and requestto = ?) AND status = 'Friends'";
+	    	prepStatement = connection.prepareStatement(query);
+	    	
+	    	prepStatement.setString(1, value);
+	    	prepStatement.setString(2, name2);
+	    	prepStatement.setString(3, name2);
+	    	prepStatement.setString(4, value);
+	    	
+	    	ResultSet resultSet3 = prepStatement.executeQuery();
+	    	if(resultSet3.next())
+	    	{
+	    	    found = 1;
+	    		System.out.println(name1+" --> "+resultSet2.getString(1)+" --> "+name2+" These users are connected.");
+	    		break;
+	    	}
+	    }
+		 
+		}
+		else{
+		    found = 1;
+			System.out.println(name1+" --> "+name2+" These users are friends.");
+		}
+		
+		if(found == 0)
+		{
+			System.out.println("These users are not connected");
+		}
+		
+	    resultSet.close();
+			
+		} catch (Exception Ex) {
+			System.out.println("Machine Error: " + Ex.toString());
+		}
+		finally{
+			try {
+				if (statement!=null) statement.close();
+			} catch (SQLException e) {
+				System.out.println("Cannot close Statement. Machine error: "+e.toString());
+			}
+		}
 
+	}
 
  
 //Question 13: topMessages
@@ -454,7 +709,84 @@ public void topMessages(int x, int k)
 }
 	
 	//FUNCTION 14: dropUser
-	
+        public void dropUser() {
+		try {
+			//drop from group -> using trigger 
+			//also write trigger for groups having too many members
+			
+			Scanner keyboard = new Scanner(System.in);
+			System.out.println("Username to drop:");
+			String name1 = keyboard.nextLine();
+			
+			query = "delete from Friendships where nameofuser = ? OR requestto = ?";
+			prepStatement = connection.prepareStatement(query);
+			prepStatement.setString(1, name1);
+			prepStatement.setString(2, name1);
+			prepStatement.executeUpdate();
+			
+			query = "select * from Messages where sender = ? OR recipient = ?";
+			prepStatement = connection.prepareStatement(query);
+			prepStatement.setString(1, name1);
+			prepStatement.setString(2, name1);
+			ResultSet resultset2 = prepStatement.executeQuery();
+			
+			while(resultset2.next())
+			{
+			    String sender = resultset2.getString(3);
+			    String rec = resultset2.getString(4);
+			    String sub = resultset2.getString(1);
+			    if(sender.equals(name1))
+			    {
+			    	query = "select * from Profiles where username = ?";
+			    	prepStatement = connection.prepareStatement(query);
+			    	prepStatement.setString(1, rec);
+			    	ResultSet resultset3 = prepStatement.executeQuery();
+			    	if(!resultset3.next())
+			    	{
+			    		query = "delete from Messages where sender = ? AND recipient = ? AND subject = ?";
+			    		prepStatement = connection.prepareStatement(query);
+			    		prepStatement.setString(1, sender);
+			    		prepStatement.setString(2, rec);
+			    		prepStatement.setString(3, sub);
+			    		prepStatement.executeUpdate();
+			    	}
+			    }
+			    else
+			    {
+			    	query = "select * from Profiles where username = ?";
+			    	prepStatement = connection.prepareStatement(query);
+			    	prepStatement.setString(1, sender);
+			    	ResultSet resultset4 = prepStatement.executeQuery();
+			    	if(!resultset4.next())
+			    	{
+			    		query = "delete from Messages where sender = ? AND recipient = ? AND subject = ?";
+			    		prepStatement = connection.prepareStatement(query);
+			    		prepStatement.setString(1, sender);
+			    		prepStatement.setString(2, rec);
+			    		prepStatement.setString(3, sub);
+			    		prepStatement.executeUpdate();
+			    	}
+			    }
+			}
+			
+			query = "delete from Profiles where username = ?";
+			prepStatement = connection.prepareStatement(query);
+			prepStatement.setString(1, name1);
+			prepStatement.executeUpdate();
+			
+			
+		} catch (Exception Ex) {
+			System.out.println("Machine Error: " + Ex.toString());
+		}
+		finally{
+			try {
+				if (statement!=null) statement.close();
+			} catch (SQLException e) {
+				System.out.println("Cannot close Statement. Machine error: "+e.toString());
+			}
+		}
+
+	}
 	
 	
 	
