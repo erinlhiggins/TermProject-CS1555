@@ -1,5 +1,5 @@
 
----Project milestone 1
+---Project milestone 2
 ---By: Elh76 & Leo10
 
 
@@ -54,6 +54,7 @@ CREATE TABLE Messages
 	groupmsg	varchar2(32)
 );
 
+-- Trigger to drop users from group if they are dropped from system
 create or replace trigger dropusergroup
   before delete on Profiles for each row
   when (old.ingroup is not null)
@@ -61,7 +62,8 @@ create or replace trigger dropusergroup
   update Groups set numofmembers = numofmembers - 1 where groupname = :old.ingroup;
   end;
   /
-  
+
+-- Trigger to ensure membership limit  
 create or replace trigger membershiplimit
   before update on Groups for each row
     begin
