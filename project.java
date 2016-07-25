@@ -561,7 +561,6 @@ Scanner scanner = new Scanner(System.in);
 		{
 			while(resultSet.next())
 			{
-			System.out.println("test");
 				System.out.println(resultSet.getString(2));
 			}
 		}
