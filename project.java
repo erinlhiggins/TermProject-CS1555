@@ -78,6 +78,8 @@ public class project {
 	public void createUser(){
 		try{
 	
+	    connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 	    query = "insert into Profiles values (?,?,?,?,?,?)";
 	    prepStatement = connection.prepareStatement(query);
 		
@@ -107,6 +109,7 @@ public class project {
 	    
 	    prepStatement.executeUpdate();
 		System.out.println("Adding: " + id + " " + user +  " " + email + " " + date_reg + " " + lastlogin + " " + group + " " + "to Profiles");
+		connection.commit();
 		}
 	catch(SQLException Ex) {
 	    System.out.println("Error running the sample queries.  Machine Error: " +
@@ -130,6 +133,8 @@ public class project {
         public void initiateFriendship() {
 
 	try{
+	    connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 	    query = "insert into Friendships values (?,?,?,?,?)";
     	prepStatement = connection.prepareStatement(query);
     	
@@ -149,11 +154,8 @@ public class project {
 	    prepStatement.setLong(3, request);
 	    prepStatement.setString(4, status);
 	    prepStatement.setDate(5, date_reg);
-	    // Now that the statement is ready. Let's execute it. Note the use of 
-	    // executeUpdate for insertions and updates instead of executeQuery for 
-	    // selections.
 	    prepStatement.executeUpdate();
-	    
+	    connection.commit();
 	}
 	catch(SQLException Ex) {
 	    System.out.println("Error running the sample queries.  Machine Error: " +
@@ -178,7 +180,8 @@ public class project {
 
 	public void establishFriendship(){
 		try{
-		
+            connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		  query = "UPDATE Friendships" +  "SET status = ? AND request = ? WHERE nameofuser = ?";
 		  prepStatement = connection.prepareStatement(query);
 		  System.out.println("here1");
@@ -200,11 +203,10 @@ public class project {
 		prepStatement.setString(3,name1);
 		
 	
-	    // Now that the statement is ready. Let's execute it. Note the use of 
-	    // executeUpdate for insertions and updates instead of executeQuery for 
-	    // selections.
+	   
 	    prepStatement.executeUpdate();
-			
+		
+	connection.commit();	
 			
 		}
 		catch(Exception Ex)  
@@ -225,6 +227,8 @@ public class project {
 	//FUNCTION 4: displayFriends
 	public void displayFriends() {
 	try {
+	 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	 connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 	   query ="select * from Friendships where nameofuser = ?";
 	   prepStatement = connection.prepareStatement(query);
 	   Scanner keyboard = new Scanner(System.in);
@@ -239,6 +243,7 @@ public class project {
 	    	System.out.println(resultSet.getString(1)+"\t"+resultSet.getString(2)+"\t"+resultSet.getLong(3)+"\t"+resultSet.getString(4)+"\t"+resultSet.getDate(5));
 	    }
 	    resultSet.close();
+	    connection.commit();
 	}	
 	catch(Exception Ex)  
 	{
@@ -260,7 +265,8 @@ public class project {
 	//Function 5 : CreateGroup
 public void createGroup(){
 	try{
-		
+	 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	 connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);	
 		query = "insert into Groups values(?,?,?,?)";
 		
 		prepStatement = connection.prepareStatement(query);
@@ -277,7 +283,7 @@ public void createGroup(){
 	    prepStatement.executeUpdate();
 		
 		System.out.println("Adding: " + subject +  " " + description + " " + members + " " + memberlimit + " " + "to Groups");
-		
+	    connection.commit();	
 		}
 		
 		catch(SQLException Ex) {
@@ -299,7 +305,8 @@ public void createGroup(){
     public void addToGroup() {
 	
 	try {
-    	
+    	 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	 connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
     	Scanner keyboard = new Scanner(System.in);
 		System.out.println("Username:");
 		String name1 = keyboard.nextLine();
@@ -316,6 +323,7 @@ public void createGroup(){
     	prepStatement = connection.prepareStatement(query);
 		prepStatement.setString(1, name2); 
 	    prepStatement.executeUpdate();
+	    connection.commit();
 	}	
 	catch(Exception Ex)  {
 	    System.out.println("Machine Error: " +
@@ -335,41 +343,45 @@ public void createGroup(){
 //Function 7 : sendMessageTouser
 public void sendMessageTouser(){
 	try{
+            connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		query = "insert into Messages values(?,?,?,?,?,?)";
-		System.out.println("here1");
+		//System.out.println("here1");
 		prepStatement = connection.prepareStatement(query);
       System.out.println("here2");
 	    String subject = "Workout";
-		System.out.println("here3");
+	//	System.out.println("here3");
 	    String textmsg = "Wanna workout at 7 tomorrow?";
-		System.out.println("here4");
+		//System.out.println("here4");
 		String sender = "Lena Ortmann";
-		System.out.println("here5");
+		//System.out.println("here5");
 		String recipient= "Hannah Barton";
-		System.out.println("here6");
+		//System.out.println("here6");
 		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	    java.sql.Date datereg = new java.sql.Date (df.parse("2016-05-13").getTime());
-		System.out.println("here7");
+		//System.out.println("here7");
 		int groupmsg = 0;
-		System.out.println("here8");
+		//System.out.println("here8");
 	
 	    prepStatement.setString(1, subject); 
-		System.out.println("here9");
+		//System.out.println("here9");
 	    prepStatement.setString(2, textmsg);
-		System.out.println("here10");
+		//System.out.println("here10");
 	    prepStatement.setString(3, sender);
-		System.out.println("here11");
+		//System.out.println("here11");
 		prepStatement.setString(4,recipient);
-		System.out.println("here12");
+		//System.out.println("here12");
 		prepStatement.setDate(5,datereg);
-		System.out.println("here13");
+		//System.out.println("here13");
 		prepStatement.setInt(6,groupmsg);
-		System.out.println("here14");
+		//System.out.println("here14");
 		 prepStatement.executeUpdate();
-		System.out.println("here15");
+		//System.out.println("here15");
 		System.out.println("Adding: " + subject +  " " + textmsg + " " + sender + " " + recipient + " " + datereg + " " + groupmsg + " " + "to Messages");
-		System.out.println("here16");
+		//System.out.println("here16");
 		resultSet.close();
+		
+		connection.commit();
 		}
 		
 		catch(SQLException Ex) {
@@ -394,6 +406,8 @@ public void sendMessageTouser(){
 //FUNCTION 8: sendMessageToGroup
     public void sendMessageToGroup() {
 	try{
+            connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 	    query = "select username from Profiles where ingroup = ?";
 	    prepStatement = connection.prepareStatement(query);
 	    
@@ -427,7 +441,7 @@ public void sendMessageTouser(){
 			
 			prepStatement.executeUpdate();
 		}
-		
+		connection.commit();
 	}	
 	catch(Exception Ex) {
 	    System.out.println("Machine Error: " +
@@ -447,7 +461,8 @@ public void sendMessageTouser(){
 //Function 9 : displayMessages
 public void displayMessages(){
 	try{
-		
+	 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	 connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);	
 		query = "select * from Messages where recipient = ?";
     	prepStatement = connection.prepareStatement(query);
     	
@@ -465,7 +480,7 @@ public void displayMessages(){
 	    }
 	    resultSet.close();
 		
-		
+	connection.commit();	
 
 }
 catch(SQLException Ex) {
@@ -488,6 +503,8 @@ catch(SQLException Ex) {
 //FUNCTION 10: displayNewMessages
 	public void displayNewMessages() {
 		try {
+		 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		query = "select * from Messages where recipient = ? AND dateofmsg > (select timeoflastlogin from Profiles where username = ?)";
     	prepStatement = connection.prepareStatement(query);
     	
@@ -505,6 +522,7 @@ catch(SQLException Ex) {
 	    	System.out.println(resultSet.getString(1)+"\t"+resultSet.getString(2)+"\t"+resultSet.getString(3)+"\t"+resultSet.getString(4)+"\t"+resultSet.getDate(5)+"\t"+resultSet.getString(6));
 	    }
 	    resultSet.close();
+	    connection.commit();
 			
 		} catch (Exception Ex) {
 			System.out.println("Machine Error: " + Ex.toString());
@@ -525,21 +543,23 @@ public void searchForUser()
 Scanner scanner = new Scanner(System.in);
 
 	try{
+	 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	 connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		int counter = 1;
 		
 		query = "select username from Profiles where username = ?";
 		prepStatement = connection.prepareStatement(query);
 		
 		
-		System.out.println("here1");
+	//	System.out.println("here1");
 		System.out.println("Enter name");
 		String fname = scanner.next();
 		
 		
-		System.out.println("here2");
+		//System.out.println("here2");
 	
 		prepStatement.setString(1, fname); 
-		System.out.println("here3");
+		//System.out.println("here3");
 	    resultSet = prepStatement.executeQuery();
 		
 		 
@@ -553,7 +573,9 @@ Scanner scanner = new Scanner(System.in);
 		resultSet.close();
 		
 	
-		System.out.println("here4");
+		//System.out.println("here4");
+		
+		connection.commit();
 		}
 	
 	
@@ -576,7 +598,8 @@ Scanner scanner = new Scanner(System.in);
 //FUNCTION  12: threeDegrees
 	public void threeDegrees() {
 		try {
-		
+		connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		int found = 0;
 		query = "select requestto from Friendships where (nameofuser = ? AND requestto = ?) OR (nameofuser = ? AND requestto = ?) AND status = 'Friends'";
 		prepStatement = connection.prepareStatement(query);
@@ -632,7 +655,7 @@ Scanner scanner = new Scanner(System.in);
 		}
 		
 	    resultSet.close();
-			
+	    connection.commit();	
 		} catch (Exception Ex) {
 			System.out.println("Machine Error: " + Ex.toString());
 		}
@@ -652,6 +675,8 @@ public void topMessages(int x, int k)
 {
 	try
 	{
+            connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		int counter = 1;
 		statement = connection.createStatement();
 		Calendar calendar = Calendar.getInstance();
@@ -697,8 +722,8 @@ public void topMessages(int x, int k)
 		resultSet.close();
 		
 		query ="SELECT COUNT(textmsg) from Messages";
-	   statement.executeQuery(query);
-		
+	        statement.executeQuery(query);
+	connection.commit();	
 		}
 	catch(SQLException Ex) {
 	    System.out.println("Error running the sample queries.  Machine Error: " + Ex.toString());
@@ -718,8 +743,8 @@ public void topMessages(int x, int k)
 	//FUNCTION 14: dropUser
         public void dropUser() {
 		try {
-			//drop from group -> using trigger 
-			//also write trigger for groups having too many members
+		 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+	         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 			
 			Scanner keyboard = new Scanner(System.in);
 			System.out.println("Username to drop:");
@@ -780,7 +805,7 @@ public void topMessages(int x, int k)
 			prepStatement = connection.prepareStatement(query);
 			prepStatement.setString(1, name1);
 			prepStatement.executeUpdate();
-			
+		connection.commit();	
 			
 		} catch (Exception Ex) {
 			System.out.println("Machine Error: " + Ex.toString());
@@ -800,8 +825,8 @@ public void topMessages(int x, int k)
  public static void main(String args[]) throws SQLException
   {
     String username, password;
-	username = "leo10"; //This is your username in oracle
-	password = "3720791"; //This is your password in oracle
+	username = "elh76"; //This is your username in oracle
+	password = "3776754"; //This is your password in oracle
 	
 	try{
 	    // Register the oracle driver.  
