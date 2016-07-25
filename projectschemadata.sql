@@ -61,6 +61,16 @@ create or replace trigger dropusergroup
   update Groups set numofmembers = numofmembers - 1 where groupname = :old.ingroup;
   end;
   /
+  
+create or replace trigger membershiplimit
+  before update on Groups for each row
+    begin
+       if(:old.numofmembers = :old.membershiplimit)
+       then
+	   :new.numofmembers := :old.numofmembers;
+       end if;
+     end;
+/
 
 ---Inserting into Profile table
 
