@@ -53,6 +53,7 @@ CREATE TABLE Messages
 	groupmsg	varchar2(32)
 );
 
+-- trigger to drop the person from a group if they are removed from the system
 create or replace trigger dropusergroup
   before delete on Profiles for each row
   when (old.ingroup is not null)
@@ -60,6 +61,17 @@ create or replace trigger dropusergroup
   update Groups set numofmembers = numofmembers - 1 where groupname = :old.ingroup;
   end;
   /
+  
+-- Making sure that Group limits are upheld, if not will not increase memebership  
+create or replace trigger membershiplimit
+  before update on Groups for each row
+    begin
+       if(:old.numofmembers = :old.membershiplimit)
+       then
+	   :new.numofmembers := :old.numofmembers;
+       end if;
+     end;
+/
 
 ---Inserting into Profile table
 
