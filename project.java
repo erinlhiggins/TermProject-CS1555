@@ -15,6 +15,7 @@ public class project {
 	private String lname;
 	private int x;
 	private int k;
+	private int counter;
 	
 	
 	public project(int question_no) {
@@ -90,12 +91,12 @@ public class project {
 		
 		
 	  Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter new id:");
-		int id = scanner.nextInt();
 		System.out.println("Enter new username:");
 		String user = scanner.nextLine();
 		System.out.println("Enter new email:");
 		String email = scanner.nextLine();
+		System.out.println("Enter new id:");
+		int id = scanner.nextInt();
 		
 		
 	    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -113,7 +114,6 @@ public class project {
 		prepStatement.setString(6,group);
 	    
 	    prepStatement.executeUpdate();
-		System.out.println("Adding: " + id + " " + user +  " " + email + " " + date_reg + " " + lastlogin + " " + group + " " + "to Profiles");
 		connection.commit();
 		}
 	catch(SQLException Ex) {
@@ -276,10 +276,14 @@ public void createGroup(){
 		
 		prepStatement = connection.prepareStatement(query);
       
-	    String subject = "Ski Club";
-	    String description = "Snow lovers";
-		int members = 5;
-		int memberlimit = 50;
+        Scanner keyboard = new Scanner(System.in);
+	   System.out.println("Group name:");
+	   String subject = keyboard.nextLine();
+	   System.out.println("Group Description:");
+	    String description = keyboard.nextLine();
+	    System.out.println("Membership limit:");
+	    int memberlimit = keyboard.nextInt();
+		int members = 0;
 	
 	    prepStatement.setString(1, subject); 
 	    prepStatement.setString(2, description);
@@ -287,8 +291,7 @@ public void createGroup(){
 		prepStatement.setInt(4,memberlimit);
 	    prepStatement.executeUpdate();
 		
-		System.out.println("Adding: " + subject +  " " + description + " " + members + " " + memberlimit + " " + "to Groups");
-	    connection.commit();	
+		connection.commit();	
 		}
 		
 		catch(SQLException Ex) {
@@ -352,10 +355,15 @@ public void sendMessageTouser(){
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		query = "insert into Messages values(?,?,?,?,?,?)";
 		prepStatement = connection.prepareStatement(query);
-	    String subject = "Workout";
-	    String textmsg = "Wanna workout at 7 tomorrow?";
-		String sender = "Lena Ortmann";
-		String recipient= "Hannah Barton";
+		Scanner keyboard = new Scanner(System.in);
+	   System.out.println("Subject:");
+	   String subject = keyboard.nextLine();
+	   System.out.println("Message:");
+	   String textmsg = keyboard.nextLine();
+	   System.out.println("Your username:");
+	   String sender = keyboard.nextLine();
+	   System.out.println("Recipient:");
+	   String recipient = keyboard.nextLine();
 		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	    java.sql.Date datereg = new java.sql.Date (df.parse("2016-05-13").getTime());
 		int groupmsg = 0;
@@ -367,8 +375,7 @@ public void sendMessageTouser(){
 		prepStatement.setDate(5,datereg);
 		prepStatement.setInt(6,groupmsg);
 		prepStatement.executeUpdate();
-		System.out.println("Adding: " + subject +  " " + textmsg + " " + sender + " " + recipient + " " + datereg + " " + groupmsg + " " + "to Messages");
-		
+				
 		connection.commit();
 		}
 		
@@ -533,35 +540,36 @@ Scanner scanner = new Scanner(System.in);
 	try{
 	 connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	 connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-		int counter = 1;
-		
-		query = "select username from Profiles where username = ?";
-		prepStatement = connection.prepareStatement(query);
-		
-		
-	//	System.out.println("here1");
-		System.out.println("Enter name");
-		String fname = scanner.next();
-		
-		
-		//System.out.println("here2");
 	
-		prepStatement.setString(1, fname); 
-		//System.out.println("here3");
-	    resultSet = prepStatement.executeQuery();
+		query = "select * from Profiles where username LIKE ? OR email LIKE ?";
+		prepStatement = connection.prepareStatement(query);
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Search for:");
+		String name1 = keyboard.nextLine();
 		
-		 
-		 while (resultSet.next()) //exists but moves us forward to the first record
-	    {
-		    System.out.println( "counter: ");
-		    String text = resultSet.getString("username");
-			System.out.println(text);
-		    counter++;
-	    } 
+		prepStatement.setString(1, "%"+name1+"%");
+		prepStatement.setString(2, "%"+name1+"%");
+		
+		resultSet = prepStatement.executeQuery();
+		
+		System.out.println("Users with username or email containing that string:");
+		if(!resultSet.next())
+		{
+			System.out.println("No matches found!");
+		}
+		else
+		{
+			while(resultSet.next())
+			{
+			System.out.println("test");
+				System.out.println(resultSet.getString(2));
+			}
+		}
+		
+		
+		
 		resultSet.close();
 		
-	
-		//System.out.println("here4");
 		
 		connection.commit();
 		}
@@ -663,54 +671,25 @@ public void topMessages(int x, int k)
 {
 	try
 	{
+	    counter = 0;
         connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-		int counter = 1;
-		Calendar calendar = Calendar.getInstance();
-		java.util.Date currentDate = calendar.getTime();
-	    //java.sql.Date date_reg = new java.sql.Date (df.getTime());
-		
-		
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -k);
 		
 				
-		query = "SELECT * from Messages where dateofmsg between cal and currentDate ";
+		query = "SELECT recipient, COUNT(*) from Messages where dateofmsg > ADD_MONTHS(sysdate, -?) group by recipient order by COUNT(*) DESC";
 		prepStatement = connection.prepareStatement(query);
+		prepStatement.setInt(1, x);
 		resultSet = prepStatement.executeQuery(); 
 		
-		 
-		 while (resultSet.next()) //exists but moves us forward to the first record
+		System.out.println("RECIPIENT\t\tNUMMESSAGES");
+
+		while(resultSet.next() && counter < k) //exists but moves us forward to the first record
 	    {
-		    System.out.println( "counter: ");
-		    Date dateofmsg = resultSet.getDate("dateofmsg");
-			System.out.println(dateofmsg);
-		    counter++;
+			System.out.println(resultSet.getString(1)+"\t\t"+resultSet.getString(2));
+			counter++;
 	    } 
 		resultSet.close();
 		
-		
-		query = "SELECT textmsg,sender,recipient from Messages";
-		resultSet = prepStatement.executeQuery(query);
-		
-		
-		 while (resultSet.next()) //exists but moves us forward to the first record
-	    {
-		    System.out.println( "counter: ");
-		    String textmsg = resultSet.getString("textmsg");
-			System.out.println(textmsg);
-			
-			String sender = resultSet.getString("sender");
-			System.out.println(sender);
-			
-			String recipient = resultSet.getString("recipient");
-			System.out.println(recipient);
-		    counter++;
-	    } 
-		resultSet.close();
-		
-		query ="SELECT COUNT(textmsg) from Messages";
-	        statement.executeQuery(query);
 	connection.commit();	
 		}
 	catch(SQLException Ex) {
