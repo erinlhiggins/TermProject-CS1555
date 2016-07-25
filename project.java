@@ -57,6 +57,11 @@ public class project {
 	   threeDegrees();
 	    break;
 	case 13:
+	    Scanner keyboard = new Scanner(System.in);
+	    System.out.println("Months:");
+	    x = keyboard.nextInt();
+	    System.out.println("Number of people:");
+	    k = keyboard.nextInt();
 		topMessages(x, k);
 		break;
         case 14:
@@ -88,9 +93,9 @@ public class project {
 		System.out.println("Enter new id:");
 		int id = scanner.nextInt();
 		System.out.println("Enter new username:");
-		String user = scanner.next();
+		String user = scanner.nextLine();
 		System.out.println("Enter new email:");
-		String email = scanner.next();
+		String email = scanner.nextLine();
 		
 		
 	    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -98,7 +103,7 @@ public class project {
 	    java.sql.Timestamp lastlogin  = new java.sql.Timestamp(new java.util.Date().getTime());
 	    
 		
-	    String group = "Null";
+	    String group = "NULL";
 	    
 		prepStatement.setInt(1,id);
 	    prepStatement.setString(2, user); 
@@ -182,9 +187,9 @@ public class project {
 		try{
             connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-		  query = "UPDATE Friendships" +  "SET status = ? AND request = ? WHERE nameofuser = ?";
+		  query = "update Friendships set status = ?, request = ? WHERE nameofuser = ?";
 		  prepStatement = connection.prepareStatement(query);
-		  System.out.println("here1");
+		  //System.out.println("here1");
 		  
 		  
 		  Scanner keyboard = new Scanner(System.in);
@@ -343,43 +348,26 @@ public void createGroup(){
 //Function 7 : sendMessageTouser
 public void sendMessageTouser(){
 	try{
-            connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+        connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		query = "insert into Messages values(?,?,?,?,?,?)";
-		//System.out.println("here1");
 		prepStatement = connection.prepareStatement(query);
-      System.out.println("here2");
 	    String subject = "Workout";
-	//	System.out.println("here3");
 	    String textmsg = "Wanna workout at 7 tomorrow?";
-		//System.out.println("here4");
 		String sender = "Lena Ortmann";
-		//System.out.println("here5");
 		String recipient= "Hannah Barton";
-		//System.out.println("here6");
 		java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	    java.sql.Date datereg = new java.sql.Date (df.parse("2016-05-13").getTime());
-		//System.out.println("here7");
 		int groupmsg = 0;
-		//System.out.println("here8");
 	
 	    prepStatement.setString(1, subject); 
-		//System.out.println("here9");
 	    prepStatement.setString(2, textmsg);
-		//System.out.println("here10");
 	    prepStatement.setString(3, sender);
-		//System.out.println("here11");
 		prepStatement.setString(4,recipient);
-		//System.out.println("here12");
 		prepStatement.setDate(5,datereg);
-		//System.out.println("here13");
 		prepStatement.setInt(6,groupmsg);
-		//System.out.println("here14");
-		 prepStatement.executeUpdate();
-		//System.out.println("here15");
+		prepStatement.executeUpdate();
 		System.out.println("Adding: " + subject +  " " + textmsg + " " + sender + " " + recipient + " " + datereg + " " + groupmsg + " " + "to Messages");
-		//System.out.println("here16");
-		resultSet.close();
 		
 		connection.commit();
 		}
@@ -675,10 +663,9 @@ public void topMessages(int x, int k)
 {
 	try
 	{
-            connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
+        connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		int counter = 1;
-		statement = connection.createStatement();
 		Calendar calendar = Calendar.getInstance();
 		java.util.Date currentDate = calendar.getTime();
 	    //java.sql.Date date_reg = new java.sql.Date (df.getTime());
@@ -688,8 +675,9 @@ public void topMessages(int x, int k)
 		cal.add(Calendar.MONTH, -k);
 		
 				
-		query = "SELECT from Messages where dateofmsg between cal and currentDate ";
-		resultSet = prepStatement.executeQuery(query) ; 
+		query = "SELECT * from Messages where dateofmsg between cal and currentDate ";
+		prepStatement = connection.prepareStatement(query);
+		resultSet = prepStatement.executeQuery(); 
 		
 		 
 		 while (resultSet.next()) //exists but moves us forward to the first record
@@ -852,4 +840,3 @@ public void topMessages(int x, int k)
 	}
   }
 }
-	
