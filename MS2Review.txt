@@ -1,0 +1,13 @@
+1. DOB of users?
+
+2. please write some comments of how to run your java file in ReadMe file. 
+
+3. If you have time, please add feedback to user after each operation, telling whether the operation is successful or failed.
+
+*4. Where are you storing the groupmembers? How can you then send to group message? Tell me your logic.
+
+5. If the group limit is already reached, when attempting to add in new user, you should indicate that in the interface.
+
+6. Group limit should not be allow to set to 0, since this doesn't make sense.
+
+7. Drop user function doesn't work properly.
