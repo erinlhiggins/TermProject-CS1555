@@ -81,6 +81,8 @@ public class project {
 	}
 			
     }
+    
+    //adding a new user to Profiles
 	public void createUser(){
 		try{
 	
@@ -189,7 +191,6 @@ public class project {
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		  query = "update Friendships set status = ?, request = ? WHERE nameofuser = ?";
 		  prepStatement = connection.prepareStatement(query);
-		  //System.out.println("here1");
 		  
 		  
 		  Scanner keyboard = new Scanner(System.in);
@@ -469,6 +470,8 @@ public void displayMessages(){
 	    
 	    ResultSet resultSet = prepStatement.executeQuery();
 	    System.out.println("SUBJECT\t\tTEXTMSG\t\t\t\t\tSENDER\t\tDATEOFMSG");
+	   
+	 //Printing messages from recipient   
 	    while(resultSet.next())
 	    {
 	    	System.out.println(resultSet.getString(1)+"\t"+resultSet.getString(2)+"\t"+resultSet.getString(3)+"\t"+resultSet.getString(4));
@@ -545,7 +548,7 @@ Scanner scanner = new Scanner(System.in);
 		prepStatement = connection.prepareStatement(query);
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Search for:");
-		String name1 = keyboard.nextLine();
+		String name1 = keyboard.nextLine();  //keyword to search for
 		
 		prepStatement.setString(1, "%"+name1+"%");
 		prepStatement.setString(2, "%"+name1+"%");
@@ -681,7 +684,7 @@ public void topMessages(int x, int k)
 		resultSet = prepStatement.executeQuery(); 
 		
 		System.out.println("RECIPIENT\t\tNUMMESSAGES");
-
+	//Printing top messages
 		while(resultSet.next() && counter < k) //exists but moves us forward to the first record
 	    {
 			System.out.println(resultSet.getString(1)+"\t\t"+resultSet.getString(2));
