@@ -11,3 +11,10 @@
 6. Group limit should not be allow to set to 0, since this doesn't make sense.
 
 7. Drop user function doesn't work properly.
+
+
+=========
+We just talked during the recitation. I think the points I mentioned earlier are well addressed in your project.
+If your final project does not run on my end, I might ask you to show me a real demo. Please be sure you reply my email on time.
+
+I will grade your final project, and Dr. Farnan can modify it.
