@@ -18,6 +18,8 @@ public class driver {
 	private static int casenum;
 	private static int counter;	
     
+    
+    //adding a new user to Profiles
 	public static void createUser(int casenum){
 		try{
 	
@@ -47,7 +49,7 @@ public class driver {
 	    
 	   prepStatement.executeUpdate();
 	   
-
+	//Selecting new user
 	  query ="select * from Profiles where userID = ?";
 	  
 	   prepStatement = connection.prepareStatement(query);
@@ -56,7 +58,7 @@ public class driver {
 	   
 	    ResultSet resultSet = prepStatement.executeQuery();
 	   System.out.println("userID" + " " + "nameofuser" + " " + "email" + " " + "dob" + " " + "timeoflastlogin" + " " + "ingroup");
-		
+	//printing new user
 		while(resultSet.next())
 		{
 	    System.out.println(resultSet.getInt(1)+"   "+ resultSet.getString(2)+"   "+resultSet.getString(3)+"   "+resultSet.getDate(4)+"   "+resultSet.getDate(5) + "   " + resultSet.getString(6));
@@ -135,11 +137,11 @@ public class driver {
 		  query = "update Friendships set status = ?, request = ? WHERE nameofuser = ?";
 		  prepStatement = connection.prepareStatement(query);
 		  
-		String name1 = "Erin Higgins";
-		String name2 = "Zachary Quinto";
+		String name1 = "Erin Higgins"; //user
+		String name2 = "Zachary Quinto"; //request to
 		
-		String status = "Friends";
-	    int request = 0;
+		String status = "Friends"; 
+	    int request = 0; 
 	    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	    java.sql.Date date_reg = new java.sql.Date (df.parse("2016-07-10").getTime());
 		
@@ -225,14 +227,14 @@ public static void createGroup(int casenum){
 		prepStatement.setInt(4,memberlimit);
 	    prepStatement.executeUpdate();
 		
-		
-			query ="select * from Groups where groupname = ?";
+	//Selecting new group	
+	  query ="select * from Groups where groupname = ?";
 	  
 	   prepStatement = connection.prepareStatement(query);
 	   prepStatement.setString(1, groupname);
 		 ResultSet resultSet = prepStatement.executeQuery();
 	   System.out.println("groupname" + " " + "description" + " " + "numofmembers" + " " + "membershiplimit");
-		
+	//Printing new group	
 		while(resultSet.next())
 		{
 	    System.out.println(resultSet.getString(1)+"   "+ resultSet.getString(2)+"   "+resultSet.getInt(3) + " " +  resultSet.getInt(4));
@@ -439,12 +441,13 @@ public static void displayMessages(int casenum){
 		query = "select * from Messages where recipient = ?";
     	prepStatement = connection.prepareStatement(query);
     	
-		String name1 = "Erin Higgins";
+		String name1 = "Erin Higgins"; //recipient
 		
 		prepStatement.setString(1, name1); 
 	    
 	    ResultSet resultSet = prepStatement.executeQuery();
 	    System.out.println("SUBJECT\t\tTEXTMSG\t\t\t\t\tSENDER\t\tDATEOFMSG");
+	 //Printing messages from recipient
 	    while(resultSet.next())
 	    {
 	    	System.out.println(resultSet.getString(1)+"\t"+resultSet.getString(2)+"\t"+resultSet.getString(3)+"\t"+resultSet.getString(4));
@@ -519,12 +522,12 @@ Scanner scanner = new Scanner(System.in);
 		prepStatement = connection.prepareStatement(query);
 		Scanner keyboard = new Scanner(System.in);
 		String name1 = "start";
-		
+	//case one
 		if(casenum == 0)
 		{
 		name1 = "Zac";
 		}
-		
+	//case two
 		if(casenum == 1)
 		{
 		name1 = "zq";
@@ -676,6 +679,7 @@ public static void topMessages(int x, int k)
 		resultSet = prepStatement.executeQuery(); 
 		
 		System.out.println("RECIPIENT\t\tNUMMESSAGES");
+	//printing top messages
 
 		while(resultSet.next() && counter < k) //exists but moves us forward to the first record
 	    {
