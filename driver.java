@@ -523,17 +523,10 @@ Scanner scanner = new Scanner(System.in);
 		query = "select * from Profiles where username LIKE ? OR email LIKE ?";
 		prepStatement = connection.prepareStatement(query);
 		Scanner keyboard = new Scanner(System.in);
-		String name1 = "start";
-	//case one
-		if(casenum == 0)
-		{
-		name1 = "Zac";
-		}
-	//case two
-		if(casenum == 1)
-		{
-		name1 = "zq";
-		}
+
+		String name1 = "in";
+		
+
 		prepStatement.setString(1, "%"+name1+"%");
 		prepStatement.setString(2, "%"+name1+"%");
 		
@@ -815,6 +808,8 @@ public static void topMessages(int x, int k)
 	    System.out.println("Successfully added");
 	    System.out.println("Trying to add Zachary Quinto again");
 	    createUser(0);          // try to create user that already exists
+	    System.out.println("Fails because he is already in the system");
+	    System.out.println("-----------------------------------------------------------------------------------------");
 	    System.out.println("Using initaiteFriendship");
 	    System.out.println("Initiating friendship between Erin Higgins and Zachary Quinto");
 	    initiateFriendship(0);  // initiate a friendship between newly created user and another person
@@ -826,9 +821,11 @@ public static void topMessages(int x, int k)
 	    establishFriendship(0);  // make the new friendship accepted instead of pending
 	    System.out.println("Using displayFriends again to show that the status has changed to accepted");
 	    displayFriends(0);      // show friends again to show change in the status of friendship   
+	    System.out.println("-----------------------------------------------------------------------------------------");
 	    System.out.println("Using createGroup");
 	    System.out.println("Creating group Animal Friends with a group limit of 2");  
 	    createGroup(0);         // create group
+	    System.out.println("-----------------------------------------------------------------------------------------");
 	    System.out.println("Using addToGroup");
 	    System.out.println("Adding Erin Higgins to group");
 	    addToGroup(0);          // add one user to a group
@@ -836,22 +833,27 @@ public static void topMessages(int x, int k)
 	    addToGroup(1);          // add another group member
 	    System.out.println("Trying to add Gabby Means to group");
 	    addToGroup(2);          // too many people
+	    System.out.println("Too many people, cannot join group");
+	    System.out.println("-----------------------------------------------------------------------------------------");
+	    System.out.println("Showing messaging sending functionality:");
 	    System.out.println("Using sendMessageTouser");
 	    System.out.println("Sending message from Joe Lynch to Erin Higgins");
 	    sendMessageTouser(0);   // send message to one person
 	    System.out.println("Using displayMessages to prove it works");
 	    displayMessages(0);     // show the messages to prove
 	    System.out.println("Using sendMessageToGroup");
-	    System.out.println("Sending message from Gabby Means to the group Animal Friends");
+	    System.out.println("Sending message from Gabby Means to the group FFA");
 	    sendMessageToGroup(0);  // send message to group with a lot of people
-	    System.out.println("Using displayMessages to prove it works");
+	    System.out.println("Using displayMessages to prove it works by showing Erin has received a messages because of the group FFA:");
 	    displayMessages(0);     // prove that this worked
 	    System.out.println("Using displayNewMessages");
 	    System.out.println("Show just new messages to Erin Higgins");
 	    displayNewMessages(0);  // prove that new messages can be displayed
-	    System.out.println("Use search to try and find Zachary");
-	    System.out.println("Searching for: Zac");
+	    System.out.println("-----------------------------------------------------------------------------------------");
+	    System.out.println("Use search to try and find anyone with the string in in their name");
+	    System.out.println("Searching for: in");
 	    searchForUser(0);       // search for user name of new user added at beginning
+	    System.out.println("-----------------------------------------------------------------------------------------");
 	    System.out.println("Using threeDegrees");
 	    System.out.println("Show relationship between Joe Lynch and Erin Higgins");
 	    threeDegrees(0);        // show that direct relationships can be found
@@ -859,11 +861,14 @@ public static void topMessages(int x, int k)
 	    threeDegrees(1);        // show that three hops can be found
 	    System.out.println("Show relationship between Joe Lynch and David Spade");
 	    threeDegrees(2);        // show that sometimes there is no connection
+	    System.out.println("-----------------------------------------------------------------------------------------");
+	    System.out.println("Test of top messages:");
 	    System.out.println("Show top message receivers for the past 12 months");
 	    topMessages(12, 12);         // show last year
 	    System.out.println("Show top message receivers for the past 144 months");
 	    topMessages(144, 12);         // show last couple years
-	    System.out.println("Showing Joe's messages, groups, and friendships before dropping");
+	    System.out.println("-----------------------------------------------------------------------------------------");
+	    System.out.println("Testing drop user:");
 	    System.out.println("Drop Joe Lynch");
 	    dropUser(0);            // drop user then show that he is not found in any of the places that he was in before including messages
 	    System.out.println("Showing that messages are still in there from Joe if the other user is still in the db");
