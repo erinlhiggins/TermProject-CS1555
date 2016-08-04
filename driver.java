@@ -82,7 +82,8 @@ public class driver {
 		}
 	}
 	}
-	
+
+//takes in input then inserts into the Friendship table	
  //FUNCTION 2 : initiateFriendship
 
         public static void initiateFriendship(int casenum) {
@@ -171,6 +172,7 @@ public class driver {
 		
 	}
 	
+	//searches through the friends list for when the username is the inputted value
 	//FUNCTION 4: displayFriends
 	public static void displayFriends(int casenum) {
 	try {
@@ -270,9 +272,9 @@ public static void createGroup(int casenum){
 		String name1 = "Erin Higgins";
 		String name2 = "FFA";
 	    
-	    query = "update Profiles set ingroup = ? where username = ?";
+	    query = "update Profiles set ingroup = concat(ingroup, ?) where username = ?";
 	    prepStatement = connection.prepareStatement(query);
-	    prepStatement.setString(1, name2);
+	    prepStatement.setString(1, name2+", ");
 	    prepStatement.setString(2, name1);
 	    prepStatement.executeUpdate();
 	    
@@ -388,7 +390,7 @@ public static void sendMessageTouser(int casenum){
 	try{
             connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-	    query = "select username from Profiles where ingroup = ?";
+	    query = "select username from Profiles where ingroup LIKE ?";
 	    prepStatement = connection.prepareStatement(query);
 
 	    String user = "Gabby Means";
@@ -396,7 +398,7 @@ public static void sendMessageTouser(int casenum){
 		String sub = "Joining";
 		String message = "Please allow more members into your group";
 		
-		prepStatement.setString(1, name1);
+		prepStatement.setString(1, "%"+name1"%");
 		
 		ResultSet resultset = prepStatement.executeQuery();
 		while(resultset.next())
@@ -861,7 +863,7 @@ public static void topMessages(int x, int k)
 	    topMessages(12, 12);         // show last year
 	    System.out.println("Show top message receivers for the past 144 months");
 	    topMessages(144, 12);         // show last couple years
-	    System.out.println("Showing Zachary's messages, groups, and friendships before dropping");
+	    System.out.println("Showing Joe's messages, groups, and friendships before dropping");
 	    System.out.println("Drop Joe Lynch");
 	    dropUser(0);            // drop user then show that he is not found in any of the places that he was in before including messages
 	    System.out.println("Showing that messages are still in there from Joe if the other user is still in the db");
