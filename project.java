@@ -230,6 +230,7 @@ public class project {
 		
 	}
 	
+	
 	//FUNCTION 4: displayFriends
 	public void displayFriends() {
 	try {
@@ -267,7 +268,7 @@ public class project {
         }
 	
 	
-	
+	//takes in simple inputs and then updates the Groups table with a new tuple
 	//Function 5 : CreateGroup
 public void createGroup(){
 	try{
@@ -310,6 +311,8 @@ public void createGroup(){
 		
 }
 
+//updates the number of users in a group and updates the list of a user's groups in their profile
+//a trigger is fired if the number of members in a group is already at it's limit forbidding this person to join the group
 //FUNCTION 6: addToGroup
     public void addToGroup() {
 	
@@ -322,9 +325,9 @@ public void createGroup(){
 		System.out.println("Group:");
 		String name2 = keyboard.nextLine();
 	    
-	    query = "update Profiles set ingroup = ? where username = ?";
+	    query = "update Profiles set ingroup = concat(ingroup, ?) where username = ?";
 	    prepStatement = connection.prepareStatement(query);
-	    prepStatement.setString(1, name2);
+	    prepStatement.setString(1, name2+", ");
 	    prepStatement.setString(2, name1);
 	    prepStatement.executeUpdate();
 	    
@@ -348,7 +351,7 @@ public void createGroup(){
     }
 
 
-
+//takes in input and adds the message to the Messages table accordingly 
 //Function 7 : sendMessageTouser
 public void sendMessageTouser(){
 	try{
@@ -399,12 +402,15 @@ public void sendMessageTouser(){
 	}
 }
 
+//stored in the profile is a list of the groups that a user is in
+//this function will look for the title of the group in the list of each user
+//if this group is listed in their groups, they will receive a message
 //FUNCTION 8: sendMessageToGroup
     public void sendMessageToGroup() {
 	try{
             connection.setAutoCommit(false); //the default is true and every statement executed is considered a transaction.
 	    connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-	    query = "select username from Profiles where ingroup = ?";
+	    query = "select username from Profiles where ingroup LIKE ?";
 	    prepStatement = connection.prepareStatement(query);
 	    
 	    Scanner keyboard = new Scanner(System.in);
@@ -417,7 +423,7 @@ public void sendMessageTouser(){
 		System.out.println("Message: ");
 		String message = keyboard.nextLine();
 		
-		prepStatement.setString(1, name1);
+		prepStatement.setString(1, "%"+name1+"%");
 		
 		ResultSet resultset = prepStatement.executeQuery();
 		while(resultset.next())
