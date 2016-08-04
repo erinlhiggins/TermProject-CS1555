@@ -398,7 +398,7 @@ public static void sendMessageTouser(int casenum){
 		String sub = "Joining";
 		String message = "Please allow more members into your group";
 		
-		prepStatement.setString(1, "%"+name1"%");
+		prepStatement.setString(1, "%"+name1+"%");
 		
 		ResultSet resultset = prepStatement.executeQuery();
 		while(resultset.next())
